@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programa de Afiliados - invertLATAM</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        :root {
+            --color-background: #0A0A0A; --color-surface: rgba(26, 26, 26, 0.6); --color-text-primary: #FFFFFF;
+            --color-text-secondary: #A0A0A0; --color-accent: #D4AF37; --color-border: rgba(255, 255, 255, 0.1);
+            --color-lines: #444; --color-success: #2ECC71; --color-system: #3B82F6;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif; background-color: var(--color-background);
+            color: var(--color-text-primary); -webkit-font-smoothing: antialiased; line-height: 1.6;
+        }
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.1), transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.05), transparent 40%);
+            animation: aurora 20s infinite alternate; z-index: -1;
+        }
+        @keyframes aurora { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+        .page-header {
+            padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--color-border); background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100;
+        }
+        .page-header .logo { font-size: 1.5rem; font-weight: 700; color: var(--color-text-primary); text-decoration: none; display: flex; align-items: center; gap: 0.75rem; }
+        .page-header .logo .bxs-horse { color: var(--color-accent); font-size: 2rem; }
+        .btn { display: inline-block; text-decoration: none; padding: 0.85rem 1.5rem; border-radius: 8px; font-weight: 700; transition: all 0.3s ease; border: none; cursor: pointer; }
+        .btn-primary { background-color: var(--color-accent); color: #111; }
+        .btn-primary:hover { opacity: 0.9; }
+        .hero-section { text-align: center; padding: 6rem 2rem 4rem 2rem; }
+        .hero-section h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; }
+        .hero-section .highlight { color: var(--color-accent); }
+        .hero-section p { max-width: 650px; margin: 0 auto; font-size: 1.125rem; color: var(--color-text-secondary); }
+        .content-section { padding: 3rem 0; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; }
+        .section-header p { max-width: 600px; margin: 0 auto; color: var(--color-text-secondary); }
+        .glass-card { background: var(--color-surface); backdrop-filter: blur(15px); border: 1px solid var(--color-border); border-radius: 16px; padding: 2.5rem; }
+        .commission-levels { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; }
+        .level-card { text-align: center; padding: 1.5rem; background: var(--color-background); border-radius: 12px; border: 1px solid var(--color-border); }
+        .level-tag { font-weight: 700; color: var(--color-accent); }
+        .level-percent { font-size: 3rem; font-weight: 900; }
+        .level-card p { font-size: 0.9rem; color: var(--color-text-secondary); }
+        .two-col-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; align-items: flex-start; }
+        .simulator-box .label { font-weight: 500; }
+        .simulator-box input { width: 100%; background: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text-primary); padding: 0.75rem; border-radius: 8px; margin: 0.5rem 0 1rem 0; }
+        .results-breakdown { margin-top: 1.5rem; }
+        .result-level { display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid var(--color-border); }
+        .result-level .level-earning { font-weight: 700; color: var(--color-success); }
+        .bonus-section { background-color: rgba(46, 204, 113, 0.1); border-radius: 8px; padding: 1rem; margin-top: 1rem; display: none; }
+        .bonus-section.visible { display: block; }
+        .bonus-section .bonus-title { font-weight: 700; color: var(--color-success); }
+        .total-earnings { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid var(--color-accent); }
+        .total-earnings .result-label { font-size: 1.2rem; }
+        .total-earnings .result { font-size: 3rem; font-weight: 900; color: var(--color-accent); }
+        .full-width-section { width: 100%; padding: 4rem 0; }
+        .affiliate-tree-container { max-width: 100%; padding: 0 2rem; }
+        .affiliate-tree { text-align: center; overflow-x: auto; padding-bottom: 1rem; }
+        .affiliate-tree ul { padding: 0; list-style: none; position: relative; display: inline-flex; }
+        .affiliate-tree li { padding-top: 50px; position: relative; display: flex; flex-direction: column; align-items: center; padding-left: 10px; padding-right: 10px; }
+        .affiliate-tree li::before, .affiliate-tree li::after { content: ''; position: absolute; top: 24px; right: 50%; border-top: 2px solid var(--color-lines); width: 50%; height: 25px; }
+        .affiliate-tree li::after { right: auto; left: 50%; border-left: 2px solid var(--color-lines); }
+        .affiliate-tree li:only-child::after, .affiliate-tree li:only-child::before { display: none; }
+        .affiliate-tree ul ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid var(--color-lines); width: 0; height: 25px; }
+        .affiliate-tree > ul > li::before, .affiliate-tree > ul > li::after { border: none; }
+        .node { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; font-weight: 500; white-space: nowrap; }
+        .node.you { border-color: var(--color-accent); }
+        .node.system-bonus { border-color: var(--color-success); color: var(--color-success); }
+        .node.system-bonus i { color: var(--color-success); }
+        .bonus-tracker-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .bonus-slot { background: var(--color-background); border: 1px dashed var(--color-border); border-radius: 12px; padding: 2rem; text-align: center; opacity: 0.6; }
+        .bonus-slot.unlocked { border-style: solid; border-color: var(--color-success); opacity: 1; }
+        .bonus-slot .icon { font-size: 3rem; margin-bottom: 1rem; }
+        .bonus-slot.unlocked .icon .bxs-award { color: var(--color-success); }
+        .bonus-slot h3 { font-size: 1.1rem; }
+        .bonus-slot p { font-size: 0.9rem; color: var(--color-text-secondary); }
+        .disclaimer { font-size: 0.8rem; color: var(--color-text-secondary); margin-top: 1rem; }
+    </style>
+</head>
+<body class="affiliate-page-body aurora-bg">
+
+    <header class="page-header">
+        <a href="index.html" class="logo"><i class='bx bxs-horse'></i><span>invertLATAM</span></a>
+        <a href="login.html" class="btn btn-primary">Únete Ahora</a>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container"><h1>Tu Potencial es <span class="highlight">Exponencial</span></h1><p>Nuestro programa de afiliados está diseñado para recompensar el liderazgo. Conviértete en un pilar de invertLATAM y crea un legado financiero duradero.</p></div>
+        </section>
+        <div class="container">
+            <section class="content-section">
+                <div class="glass-card">
+                    <div class="section-header"><h2>Plan de Compensación de 5 Niveles</h2><p>Distribuimos el 50% de cada membresía ($50 USD) en tu red. Tu influencia se recompensa generosamente.</p></div>
+                    <div class="commission-levels">
+                        <div class="level-card"><div class="level-tag">Nivel 1</div><div class="level-percent">25%</div><p>($12.50)</p></div>
+                        <div class="level-card"><div class="level-tag">Nivel 2</div><div class="level-percent">15%</div><p>($7.50)</p></div>
+                        <div class="level-card"><div class="level-tag">Nivel 3</div><div class="level-percent">5%</div><p>($2.50)</p></div>
+                        <div class="level-card"><div class="level-tag">Nivel 4</div><div class="level-percent">3%</div><p>($1.50)</p></div>
+                        <div class="level-card"><div class="level-tag">Nivel 5</div><div class="level-percent">2%</div><p>($1.00)</p></div>
+                    </div>
+                </div>
+            </section>
+            <section class="content-section">
+                <div class="section-header"><h2>Desbloquea tus Bonos de Liderazgo</h2><p>Tu esfuerzo directo se recompensa con bonos de alto valor. Por cada 5 referidos activos, desbloqueas un Contrato Asignado por el Sistema.</p></div>
+                <div class="bonus-tracker-grid">
+                    <div class="bonus-slot unlocked"><div class="icon"><i class='bx bxs-award'></i></div><h3>Bono 1 Desbloqueado</h3><p>+30% de un Contacto de Alto Valor</p></div>
+                    <div class="bonus-slot"><div class="icon"><i class='bx bxs-lock'></i></div><h3>Bono 2 Bloqueado</h3><p>Requiere 10 referidos directos</p></div>
+                    <div class="bonus-slot"><div class="icon"><i class='bx bxs-lock'></i></div><h3>Bono 3 Bloqueado</h3><p>Requiere 15 referidos directos</p></div>
+                </div>
+            </section>
+            <section class="content-section">
+                <div class="glass-card">
+                    <div class="two-col-grid">
+                        <div class="simulator-box">
+                             <h2 style="font-size: 2rem; margin-bottom: 1rem;">Proyecta tu Futuro</h2>
+                            <p style="color:var(--color-text-secondary); margin-bottom: 2rem;">Utiliza esta herramienta para visualizar el poder del crecimiento compuesto. ¿Tu ambición tiene límites?</p>
+                            <div class="label">¿Cuántos traders invitas directamente?</div>
+                            <input type="number" id="direct-invites" value="5" min="0">
+                            <div class="label">¿Cuántos traders invita cada miembro de tu red?</div>
+                            <input type="number" id="indirect-invites" value="3" min="0">
+                        </div>
+                        <div class="results-box">
+                             <div class="results-breakdown"></div>
+                             <div class="bonus-section" id="bonus-section"><span class="bonus-title"></span></div>
+                             <div class="total-earnings">
+                                <div class="result-label">Ganancia Mensual Total Potencial:</div>
+                                <div class="result" id="simulation-result">$0.00</div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <section class="full-width-section">
+            <div class="affiliate-tree-container">
+                <h2 style="text-align: center; margin-bottom: -1rem; font-size: 2.5rem;">Visualización de Red Exponencial</h2>
+                <div class="affiliate-tree">
+                    <ul>
+                        <li>
+                            <div class="node you"><i class='bx bxs-user-crown'></i> TÚ</div>
+                            <ul>
+                                <li><div class="node"><i class='bx bxs-user'></i> Referido Directo</div>
+                                    <ul>
+                                        <li><div class="node"><i class='bx bxs-user'></i> Nivel 2</div></li>
+                                        <li><div class="node"><i class='bx bxs-user'></i> Nivel 2</div></li>
+                                    </ul>
+                                </li>
+                                <li><div class="node system-bonus"><i class='bx bxs-award'></i> Bono de Sistema</div></li>
+                                <li><div class="node"><i class='bx bxs-user'></i> Referido Directo</div></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <p class="disclaimer" style="text-align: center; padding: 2rem;">*El árbol es una ilustración del potencial. Usa el simulador para cálculos precisos.</p>
+        </section>
+
+         <section class="content-section">
+            <div class="container">
+                <div class="glass-card" style="text-align: center;">
+                    <h2 style="font-size: 2.5rem;">¿Estás listo para liderar?</h2>
+                    <p style="max-width: 600px; margin: 1rem auto 2rem auto; color: var(--color-text-secondary);">Activa tu código de afiliado y empieza a construir tu legado hoy mismo.</p>
+                    <a href="login.html" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.2rem;">Empezar a Construir mi Red</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        // EL SCRIPT AHORA SOLO AFECTA AL SIMULADOR
+        document.addEventListener("DOMContentLoaded", function() {
+            const directInput = document.getElementById('direct-invites');
+            const indirectInput = document.getElementById('indirect-invites');
+            const resultDisplay = document.getElementById('simulation-result');
+            const bonusDisplay = document.getElementById('bonus-section');
+            const breakdownContainer = document.querySelector('.results-breakdown');
+            const commissionRates = [0.25, 0.15, 0.05, 0.03, 0.02];
+            const commissionableValue = 50;
+            const bonusValue = 30;
+
+            function formatCurrency(value) { return `$${value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`; }
+            
+            function calculateAndRender() {
+                const direct = parseInt(directInput.value) || 0;
+                const indirect = parseInt(indirectInput.value) || 0;
+                let totalEarnings = 0;
+                let membersAtPreviousLevel = 1;
+                breakdownContainer.innerHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    const membersAtThisLevel = (i === 0) ? direct : membersAtPreviousLevel * indirect;
+                    const levelEarning = membersAtThisLevel * commissionableValue * commissionRates[i];
+                    const levelDiv = document.createElement('div');
+                    levelDiv.className = 'result-level';
+                    levelDiv.innerHTML = `<span class="level-name">Nivel ${i+1} (${membersAtThisLevel.toLocaleString('en-US')} Personas)</span><span class="level-earning">${formatCurrency(levelEarning)}</span>`;
+                    breakdownContainer.appendChild(levelDiv);
+                    totalEarnings += levelEarning;
+                    membersAtPreviousLevel = membersAtThisLevel;
+                }
+                const unlockedBonuses = Math.min(Math.floor(direct / 5), 3);
+                let bonusEarnings = 0;
+                if (unlockedBonuses > 0) {
+                    bonusEarnings = unlockedBonuses * bonusValue;
+                    bonusDisplay.classList.add('visible');
+                    bonusDisplay.innerHTML = `<span class="bonus-title">¡Bono de Liderazgo Desbloqueado! (+ ${formatCurrency(bonusEarnings)})</span>`;
+                    totalEarnings += bonusEarnings;
+                } else {
+                    bonusDisplay.classList.remove('visible');
+                }
+                resultDisplay.textContent = formatCurrency(totalEarnings);
+            }
+            directInput.addEventListener('input', calculateAndRender);
+            indirectInput.addEventListener('input', calculateAndRender);
+            calculateAndRender();
+        });
+    </script>
+</body>
+</html>

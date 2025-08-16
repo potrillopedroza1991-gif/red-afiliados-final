@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>invertLATAM - Trading de Élite</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        :root {
+            --color-background: #111111;
+            --color-surface: #1d1d1d;
+            --color-text-primary: #F5F5F5;
+            --color-text-secondary: #a0a0a0;
+            --color-accent: #D4AF37;
+            --color-border: #333333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text-primary);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        
+        .main-container { position: relative; z-index: 1; background-color: var(--color-background); }
+        
+        .hero {
+            position: relative;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .particles-background {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+        }
+        .particles-background span {
+            position: absolute; background: var(--color-accent); border-radius: 50%;
+            animation: move 20s linear infinite; opacity: 0;
+        }
+        @keyframes move {
+            0% { opacity: 0; } 50% { opacity: 0.8; }
+            100% { transform: translate(100vw, -100vh) rotate(720deg); opacity: 0; }
+        }
+        /* MÁS PARTÍCULAS AÑADIDAS */
+        .particles-background span:nth-child(1) { top: 10%; left: 5%; width: 2px; height: 2px; animation-delay: 0s; animation-duration: 25s;}
+        .particles-background span:nth-child(2) { top: 20%; left: 80%; width: 1px; height: 1px; animation-delay: -5s; animation-duration: 35s;}
+        .particles-background span:nth-child(3) { top: 70%; left: 10%; width: 2px; height: 2px; animation-delay: -10s; }
+        .particles-background span:nth-child(4) { top: 50%; left: 50%; width: 3px; height: 3px; animation-delay: -2s; animation-duration: 18s;}
+        .particles-background span:nth-child(5) { top: 90%; left: 25%; width: 1px; height: 1px; animation-delay: -8s; animation-duration: 40s;}
+        .particles-background span:nth-child(6) { top: 30%; left: 90%; width: 2px; height: 2px; animation-delay: -12s; animation-duration: 22s;}
+        .particles-background span:nth-child(7) { top: 5%; left: 40%; width: 1px; height: 1px; animation-delay: -3s; }
+        .particles-background span:nth-child(8) { top: 85%; left: 60%; width: 2px; height: 2px; animation-delay: -15s; animation-duration: 30s;}
+        .particles-background span:nth-child(9) { top: 40%; left: 20%; width: 1px; height: 1px; animation-delay: -6s; animation-duration: 20s;}
+        .particles-background span:nth-child(10) { top: 60%; left: 5%; width: 3px; height: 3px; animation-delay: -18s; animation-duration: 28s;}
+        .particles-background span:nth-child(11) { top: 75%; left: 75%; width: 1px; height: 1px; animation-delay: -4s; animation-duration: 24s;}
+        .particles-background span:nth-child(12) { top: 15%; left: 30%; width: 2px; height: 2px; animation-delay: -9s; }
+        .particles-background span:nth-child(13) { top: 55%; left: 95%; width: 2px; height: 2px; animation-delay: -14s; animation-duration: 33s;}
+        .particles-background span:nth-child(14) { top: 5%; left: 65%; width: 1px; height: 1px; animation-delay: -1s; }
+        .particles-background span:nth-child(15) { top: 95%; left: 50%; width: 2px; height: 2px; animation-delay: -7s; animation-duration: 26s;}
+
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+        .header {
+            padding: 1.5rem 0; position: fixed; width: 100%; top: 0; left: 0; z-index: 100;
+            background: rgba(17, 17, 17, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--color-border);
+        }
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--color-text-primary); text-decoration: none; display: flex; align-items: center; gap: 0.75rem; }
+        .logo .bxs-horse { color: var(--color-accent); font-size: 2rem; }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--color-text-secondary); font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--color-accent); }
+        .btn { display: inline-block; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; border: none;}
+        .btn-primary { background-color: var(--color-accent); color: #111111; font-weight: 700; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2); }
+        
+        .hero-content { padding: 2rem; animation: fadeInUp 1s ease-out forwards; position: relative; z-index: 1;}
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .hero h1 { font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; }
+        .hero .highlight { color: var(--color-accent); }
+        .hero p { max-width: 600px; margin: 0 auto 2.5rem auto; font-size: 1.125rem; line-height: 1.7; color: var(--color-text-secondary); }
+        
+        .features-section { padding: 8rem 0; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .feature-card { background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem; }
+        .feature-card .icon { font-size: 2.5rem; color: var(--color-accent); margin-bottom: 1.5rem; }
+        .feature-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .feature-card p { color: var(--color-text-secondary); line-height: 1.6; }
+        
+        .curriculum-section { background-color: var(--color-surface); padding: 6rem 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+        .curriculum-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem; align-items: center; }
+        .curriculum-intro h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 1.5rem; line-height: 1.2; }
+        .curriculum-list ul { list-style: none; padding-left: 0; }
+        .curriculum-list li { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+        .curriculum-list .icon { font-size: 1.5rem; color: var(--color-accent); margin-top: 5px; }
+        .curriculum-list h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .curriculum-list p { font-size: 0.95rem; color: var(--color-text-secondary); line-height: 1.6; }
+        
+        .footer { text-align: center; padding: 4rem 2rem 2rem 2rem; border-top: 1px solid var(--color-border); }
+        .social-links { margin-bottom: 1.5rem; display: flex; justify-content: center; gap: 1.5rem; }
+        .social-links a { font-size: 1.8rem; color: var(--color-text-secondary); transition: color 0.3s ease, transform 0.3s ease; }
+        .social-links a:hover { color: var(--color-accent); transform: scale(1.2); }
+        .footer p { color: var(--color-text-secondary); font-size: 0.9rem; }
+
+        .scroll-animate { opacity: 0; transform: translateY(50px); transition: opacity 0.8s ease-out; }
+        .scroll-animate.animated { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+               <a href="index.html" class="logo">
+   <img src="1000013641.jpg" alt="Logo de invertLATAM" style="height: 200px; width: 200px; border-radius: 1500%; object-fit: cover; margin-right: 10px;">
+    <span>invertLATAM</span>
+</a>
+                <ul class="nav-links">
+                    <li><a href="#tecnologia">Tecnología</a></li>
+                    <li><a href="#formacion">Formación</a></li>
+                    <li><a href="#afiliados">Afiliados</a></li>
+                </ul>
+                <a href="login.html" class="btn btn-primary">Acceder</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <section class="hero">
+            <div class="particles-background">
+                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="container">
+                <div class="hero-content">
+                    <h1>El Poder se Domina. <br>El Mercado se <span class="highlight">Conquista</span>.</h1>
+                    <p>Bienvenido a invertLATAM. Donde la fuerza bruta del mercado se encuentra con la precisión de nuestra tecnología. Deja de jugar, empieza a dominar.</p>
+                    <a href="login.html" class="btn btn-primary">Únete a la Élite</a>
+                </div>
+            </div>
+        </section>
+
+        <main>
+            <section id="tecnologia" class="features-section scroll-animate">
+                <div class="container">
+                    <div class="section-header"><h2>Un Arsenal Tecnológico Superior</h2></div>
+                    <div class="features-grid">
+                        <div class="feature-card"><div class="icon"><i class='bx bxs-bot'></i></div><h3>Inteligencia Artificial Ejecutora</h3><p>Nuestros bots operan por ti con una disciplina sobrehumana, liberándote del factor emocional que destruye cuentas.</p></div>
+                        <div class="feature-card"><div class="icon"><i class='bx bxs-calculator'></i></div><h3>Herramienta "El Cazador"</h3><p>Analiza el ratio riesgo/beneficio y el capital exacto a utilizar al instante. Sin conjeturas, solo precisión letal.</p></div>
+                        <div class="feature-card"><div class="icon"><i class='bx bxs-file-js'></i></div><h3>Forja tu Propio Bot</h3><p>Te enseñamos a codificar tu propia estrategia. Convierte tu conocimiento en un EA que trabaje para ti sin descanso.</p></div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="formacion" class="curriculum-section scroll-animate">
+                <div class="container">
+                    <div class="curriculum-grid">
+                        <div class="curriculum-intro">
+                            <h2>¿Qué aprenderás en esta <span class="highlight">Formación</span>?</h2>
+                            <p>Te daremos una base técnica sólida, combinando lo mejor del análisis institucional y la lectura tradicional del mercado para que domines cualquier escenario.</p>
+                        </div>
+                        <div class="curriculum-list">
+                            <ul>
+                                <li><div class="icon"><i class='bx bx-radio-circle-marked'></i></div><div><h4>Smart Money Concepts (SMC)</h4><p>Comprende cómo actúan las instituciones, identifica zonas de liquidez y order blocks.</p></div></li>
+                                <li><div class="icon"><i class='bx bx-shape-triangle'></i></div><div><h4>Figuras Chartistas Clave</h4><p>Reconoce patrones de reversión y continuación, y valídalos con contexto y volumen.</p></div></li>
+                                <li><div class="icon"><i class='bx bxs-cube-alt'></i></div><div><h4>Estrategias Universales</h4><p>Aplica nuestros sistemas probados en cualquier mercado: divisas, criptomonedas, materias primas e incluso opciones binarias.</p></div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="afiliados" class="features-section scroll-animate">
+                 <div class="container">
+                     <div class="section-header">
+                        <h2>Más que un Trader, un <span class="highlight">Líder</span></h2>
+                        <p>El trading es un camino solitario, pero el éxito se magnifica en comunidad. Construye tu legado con nuestro programa.</p>
+                        <a href="afiliados.html" class="btn btn-primary" style="margin-top: 2rem;">Conocer el Programa de Afiliados</a>
+                    </div>
+                 </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@invertLATAM1991" title="YouTube"><i class='bx bxl-youtube'></i></a>
+                    <a href="https://wa.me/+528442794951?text=Hola%20quiero%20más%20información" title="WhatsApp"><i class='bx bxl-whatsapp'></i></a>
+                    <a href="https://t.me/+526572992067" title="Telegram"><i class='bx bxl-telegram'></i></a>
+                </div>
+                <p>&copy; 2025 invertLATAM. La nueva era del trading.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const animatedElements = document.querySelectorAll('.scroll-animate');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            animatedElements.forEach(element => { observer.observe(element); });
+        });
+    </script>
+</body>
+</html>
