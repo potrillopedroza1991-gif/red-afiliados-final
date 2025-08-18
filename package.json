@@ -1,0 +1,14 @@
+{
+  "name": "invertlatam-final",
+  "version": "1.0.0",
+  "description": "Red de afiliados y trading.",
+  "main": "servidor.js",
+  "scripts": {
+    "start": "node servidor.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0"
+  }
+}
