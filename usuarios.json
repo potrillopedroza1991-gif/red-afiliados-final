@@ -1,0 +1,130 @@
+[
+  {
+    "idUnico": "usr_1755138722808",
+    "name": "1",
+    "email": "1@gmail.com",
+    "password": "$2b$10$QDMj7U.zoOJ2wZBPOstve.KyR0/cPaWmMWWWihx7D00jDUqCLNk5S",
+    "fechaNacimiento": "1191-10-20",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-08-14T02:32:02.808Z",
+    "fechaVencimientoSuscripcion": "2025-09-13T02:32:19.782Z",
+    "walletBTC": null,
+    "referidoPor": null,
+    "codigoReferido": "1162",
+    "conteoReferidosDirectos": 0,
+    "conteoReferidosTotales": 0,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-08-14T02:32:19.782Z",
+        "txid": "0000000000",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [],
+    "notasAdmin": "",
+    "txid": null,
+    "fechaReportePago": "2025-08-14T02:32:10.319Z",
+    "fechaAprobacionPago": "2025-08-14T02:32:19.782Z"
+  },
+  {
+    "idUnico": "usr_1755138972829",
+    "name": "2",
+    "email": "2@gmail.com",
+    "password": "$2b$10$Bkd7K1m1qE8laGUJacztZO9jidehftvLmJibd4Vq9tesIxZ410bWu",
+    "fechaNacimiento": "1991-10-20",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-08-14T02:36:12.829Z",
+    "fechaVencimientoSuscripcion": "2025-09-13T02:36:34.116Z",
+    "walletBTC": null,
+    "referidoPor": null,
+    "codigoReferido": "2748",
+    "conteoReferidosDirectos": 0,
+    "conteoReferidosTotales": 0,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-08-14T02:36:34.115Z",
+        "txid": "1111111111",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [],
+    "notasAdmin": "",
+    "txid": null,
+    "fechaReportePago": "2025-08-14T02:36:20.203Z",
+    "fechaAprobacionPago": "2025-08-14T02:36:34.116Z"
+  },
+  {
+    "idUnico": "usr_1755139079210",
+    "name": "3",
+    "email": "3@gmail.com",
+    "password": "$2b$10$M6gHMBnuSXl7Nrqc3LWlqeeJAFS9bcalv6B52pJ1C/h/srLl4nJkO",
+    "fechaNacimiento": "1991-10-20",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-08-14T02:37:59.210Z",
+    "fechaVencimientoSuscripcion": "2025-09-13T02:38:15.979Z",
+    "walletBTC": null,
+    "referidoPor": null,
+    "codigoReferido": "3622",
+    "conteoReferidosDirectos": 0,
+    "conteoReferidosTotales": 0,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-08-14T02:38:15.979Z",
+        "txid": "2222222222",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [],
+    "notasAdmin": "",
+    "txid": null,
+    "fechaReportePago": "2025-08-14T02:38:05.748Z",
+    "fechaAprobacionPago": "2025-08-14T02:38:15.979Z"
+  },
+  {
+    "idUnico": "usr_1755228929469",
+    "name": "p1",
+    "email": "p1@gmail.com",
+    "password": "$2b$10$6x7.ne.03PEU3xQOZqnen.cTcyMqbTUpDnRDswqcVtpTnppYITUB6",
+    "fechaNacimiento": "1991-10-20",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-08-15T03:35:29.469Z",
+    "fechaVencimientoSuscripcion": "2025-09-14T03:35:44.869Z",
+    "walletBTC": null,
+    "referidoPor": null,
+    "codigoReferido": "P1332",
+    "conteoReferidosDirectos": 0,
+    "conteoReferidosTotales": 0,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-08-15T03:35:44.869Z",
+        "txid": "123123",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [],
+    "notasAdmin": "",
+    "txid": null,
+    "fechaReportePago": "2025-08-15T03:35:36.977Z",
+    "fechaAprobacionPago": "2025-08-15T03:35:44.869Z"
+  }
+]

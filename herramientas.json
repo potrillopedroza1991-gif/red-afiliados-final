@@ -1,0 +1,26 @@
+[
+    {
+        "titulo": "EA 'El Cazador' (MetaTrader)",
+        "descripcion": "Calculadora de riesgo y spread en tiempo real.",
+        "icono": "bxs-bot",
+        "enlaceDescarga": "https://ENLACE_AQUI"
+    },
+    {
+        "titulo": "Libro: Psicología del Trader",
+        "descripcion": "Domina tu mente para dominar el mercado.",
+        "icono": "bxs-book-open",
+        "enlaceDescarga": "https://ENLACE_AQUI"
+    },
+    {
+        "titulo": "Software de Análisis",
+        "descripcion": "Aplicación para analizar patrones de mercado.",
+        "icono": "bxs-terminal",
+        "enlaceDescarga": "https://ENLACE_AQUI"
+    },
+    {
+        "titulo": "Diario de Trading (Excel)",
+        "descripcion": "Plantilla para registrar y analizar tus operaciones.",
+       "icono": "bxs-file",
+        "enlaceDescarga": "https://cinecalidadcine.com/"
+    }
+]

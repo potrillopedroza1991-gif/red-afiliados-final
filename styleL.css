@@ -1,0 +1,160 @@
+/* --- Variables de color y fuentes --- */
+:root {
+    --color-fondo: #0D1117;
+    --color-superficie: rgba(22, 27, 34, 0.8);
+    --color-primario: #58A6FF; /* Azul brillante */
+    --color-primario-oscuro: #388BFD;
+    --color-texto-principal: #C9D1D9;
+    --color-texto-secundario: #8B949E;
+    --fuente-principal: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- Estilos generales del cuerpo --- */
+body {
+    margin: 0;
+    font-family: var(--fuente-principal);
+    background-color: var(--color-fondo);
+    color: var(--color-texto-principal);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden; /* Evita barras de scroll por la animación */
+    position: relative;
+}
+
+/* --- EFECTO AURORA DE FONDO --- */
+.background-aurora {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Lo manda hasta atrás */
+    background: radial-gradient(ellipse at top, #1a2a45, transparent),
+                radial-gradient(ellipse at bottom, #3c1a45, transparent);
+    animation: animacion-aurora 15s linear infinite alternate;
+}
+
+@keyframes animacion-aurora {
+    0% {
+        transform: rotate(0deg) scale(1.5);
+        opacity: 0.7;
+    }
+    50% {
+        transform: rotate(180deg) scale(2.0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: rotate(360deg) scale(1.5);
+        opacity: 0.7;
+    }
+}
+
+/* --- Estilos de la página y contenedor --- */
+.login-page {
+    width: 100%;
+    padding: 20px;
+    z-index: 1; /* Para que esté por encima del fondo */
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: var(--color-superficie);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px); /* Efecto de vidrio esmerilado */
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.login-header p {
+    color: var(--color-texto-secundario);
+    margin-top: 5px;
+}
+
+/* --- Botones para cambiar de formulario --- */
+.form-toggle {
+    display: flex;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    margin-bottom: 30px;
+}
+
+.toggle-btn {
+    flex: 1;
+    padding: 12px;
+    background-color: transparent;
+    border: none;
+    color: var(--color-texto-secundario);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.toggle-btn.active {
+    background-color: var(--color-primario);
+    color: #FFF;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+/* --- Estilos de los campos del formulario --- */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--color-texto-secundario);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--color-fondo);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    color: var(--color-texto-principal);
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--color-primario);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+}
+
+/* --- Estilo del botón principal --- */
+.btn.btn-primary {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--color-primario);
+    border: none;
+    border-radius: 5px;
+    color: #FFF;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn.btn-primary:hover {
+    background-color: var(--color-primario-oscuro);
+}

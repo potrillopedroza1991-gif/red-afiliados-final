@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - Admin Panel</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        :root {
+            --color-background: #0A0A0A; --color-surface: #1A1A1A; --color-glass: rgba(26, 26, 26, 0.7);
+            --color-text-primary: #FFFFFF; --color-text-secondary: #A0A0A0; --color-accent: #D4AF37;
+            --color-border: rgba(255, 255, 255, 0.1); --color-success: #2ECC71; --color-danger: #E74C3C;
+            --color-pending: #F7931A; --font-main: 'Inter', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-main); background-color: var(--color-background); color: var(--color-text-primary); }
+        .aurora-bg::before { content: ''; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at 15% 85%, rgba(255, 255, 255, 0.05), transparent 40%), radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.1), transparent 40%); animation: aurora 25s infinite alternate; z-index: -1; }
+        @keyframes aurora { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .admin-layout { display: flex; width: 100%; height: 100vh; overflow: hidden; }
+        .sidebar { width: 280px; background-color: #111111; border-right: 1px solid var(--color-border); padding: 1.5rem; display: flex; flex-direction: column; flex-shrink: 0; }
+        .sidebar-header .logo { font-size: 1.5rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.75rem; color: var(--color-text-primary); }
+        .sidebar-header .logo i { color: var(--color-accent); font-size: 2rem; }
+        .sidebar-nav { margin-top: 2.5rem; flex-grow: 1; }
+        .sidebar-nav ul { list-style: none; padding: 0; }
+        .nav-group-title { font-size: 0.75rem; text-transform: uppercase; color: var(--color-text-secondary); font-weight: 500; letter-spacing: 0.05em; padding: 0 1rem; margin-top: 2rem; margin-bottom: 1rem; }
+        .sidebar-nav li a { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1rem; border-radius: 8px; text-decoration: none; color: var(--color-text-secondary); font-weight: 500; margin-bottom: 0.5rem; transition: background-color 0.2s, color 0.2s; }
+        .sidebar-nav li a:hover { background-color: var(--color-surface); color: var(--color-text-primary); }
+        .sidebar-nav li a.active { color: var(--color-text-primary); background: linear-gradient(90deg, var(--color-accent), rgba(212, 175, 55, 0.5)); font-weight: 700; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
+        .sidebar-nav li a.active i { color: var(--color-text-primary); }
+        .sidebar-nav li a i { font-size: 1.5rem; }
+        .sidebar-footer { padding-top: 1.5rem; margin-top: 1rem; border-top: 1px solid var(--color-border); }
+        .user-profile { display: flex; align-items: center; gap: 1rem; }
+        .user-profile .avatar { width: 40px; height: 40px; border-radius: 50%; background-color: var(--color-accent); display: flex; justify-content: center; align-items: center; font-weight: 700; color: #111; }
+        .main-content { flex-grow: 1; padding: 2.5rem 3rem; overflow-y: auto; }
+        .main-header h2 { font-size: 2rem; font-weight: 900; }
+        .main-header p { color: var(--color-text-secondary); font-size: 1.1rem; }
+        .content-section { margin-top: 2.5rem; }
+        .glass-card { background: var(--color-glass); backdrop-filter: blur(15px); border: 1px solid var(--color-border); border-radius: 16px; padding: 2.5rem; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .search-bar { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.6rem 1rem; color: var(--color-text-primary); max-width: 300px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 1rem 1.5rem; text-align: left; border-bottom: 1px solid var(--color-border); vertical-align: middle; }
+        th { color: var(--color-text-secondary); font-weight: 500; font-size: 0.8rem; text-transform: uppercase; }
+        tr:last-child td { border-bottom: none; }
+        .status-pill { padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500; }
+        .status-pill.approved { background-color: rgba(46, 204, 113, 0.1); color: var(--color-success); }
+        .status-pill.pending { background-color: rgba(247, 147, 26, 0.1); color: var(--color-pending); }
+        .status-pill.inactive { background-color: rgba(231, 76, 60, 0.1); color: var(--color-danger); }
+        .btn-approve { background-color: var(--color-success); color: white; padding: 0.4rem 1rem; border-radius: 6px; font-weight: 700; border: none; cursor: pointer;}
+        .actions-cell { position: relative; text-align: right; }
+        .actions-btn { background: none; border: none; color: var(--color-text-secondary); font-size: 1.5rem; cursor: pointer; border-radius: 50%; padding: 0.5rem;}
+        .actions-btn:hover { background-color: var(--color-surface); color: var(--color-text-primary); }
+        .actions-menu { position: absolute; top: 90%; right: 1rem; background-color: #222; border: 1px solid var(--color-border); border-radius: 8px; padding: 0.5rem 0; list-style: none; z-index: 10; min-width: 240px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: opacity 0.2s ease, transform 0.2s ease; }
+        .actions-menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
+        .actions-menu a { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; color: var(--color-text-secondary); text-decoration: none; font-size: 0.9rem; }
+        .actions-menu a:hover { background-color: var(--color-accent); color: #111; }
+        .actions-menu .danger { color: var(--color-danger); }
+        .actions-menu .danger:hover { background-color: var(--color-danger); color: white; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 1001; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.visible { display: flex; opacity: 1; }
+        .modal-content { width: 90%; max-width: 800px; animation: slideInModal 0.4s ease-out; }
+        @keyframes slideInModal { from { transform: translateY(-30px); opacity: 0.8; } to { transform: translateY(0); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .modal-header h3 { font-size: 1.5rem; }
+        .close-button { background: none; border: none; font-size: 2.5rem; line-height: 1; color: var(--color-text-secondary); cursor: pointer; }
+        .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .profile-main-info { grid-column: 1 / -1; text-align: center; margin-bottom: 1rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-border); }
+        .profile-main-info h4 { font-size: 1.2rem; }
+        .profile-section h5 { color: var(--color-accent); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .notes-textarea { width: 100%; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; padding: 1rem; color: var(--color-text-primary); min-height: 100px; font-family: var(--font-main); }
+    </style>
+</head>
+<body class="aurora-bg">
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header"><a href="admin_dashboard.html" class="logo"><i class='bx bxs-shield-alt-2'></i><span>Admin Panel</span></a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group-title">Principal</div>
+                <ul>
+                    <li><a href="estadistica.html"><i class='bx bxs-bar-chart-alt-2'></i><span>Estadísticas</span></a></li>
+                    <li><a href="admin_pagos.html"><i class='bx bxs-wallet'></i><span>Pagos</span></a></li>
+                    <li><a href="admin_usuarios.html" class="active"><i class='bx bxs-user-detail'></i><span>Usuarios</span></a></li>
+                    <li><a href="admin_contenido.html"><i class='bx bxs-videos'></i><span>Contenido</span></a></li>
+                    <li><a href="admin_redes.html"><i class='bx bxl-whatsapp-square'></i><span>Redes Sociales</span></a></li>
+                </ul>
+                <div class="nav-group-title">Ajustes</div>
+                <ul><li><a href="#"><i class='bx bxs-cog'></i><span>Configuración</span></a></li><li><a href="login.html"><i class='bx bx-log-out-circle'></i><span>Cerrar Sesión</span></a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-profile"><div class="avatar">C</div><div class="user-profile-info"><span class="user-name">Christian</span><span class="user-rank">Super Admin</span></div></div>
+            </div>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                <h2>Gestión de Usuarios</h2>
+                <p>Activa, desactiva y gestiona a todos los miembros de tu plataforma.</p>
+            </header>
+            <div class="content-section">
+                <div class="management-card glass-card">
+                    <div class="card-header">
+                        <h3>Todos los Miembros</h3>
+                        <div class="search-and-filter"><input type="text" class="search-bar" placeholder="Buscar por email..."></div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Rango</th>
+                                    <th>Estado</th>
+                                    <th style="text-align: right;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista-usuarios">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+   <div id="user-profile-modal" class="modal-overlay">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3>Expediente de Usuario</h3>
+                <button id="close-modal-btn" class="close-button">&times;</button>
+            </div>
+            <div class="profile-grid">
+                <div class="profile-main-info">
+                    <h4 id="modal-email">cargando...</h4>
+                    <div>
+                        <span id="modal-status" class="status-pill"></span>
+                        <span id="modal-rank" class="status-pill" style="background-color: var(--color-accent); color: #111; margin-left: 0.5rem;">Rango: -</span>
+                    </div>
+                </div>
+                <div class="profile-section">
+                    <h5><i class='bx bxs-wallet'></i> Historial de Pagos</h5>
+                    <p id="modal-payment-history">cargando...</p>
+                </div>
+                <div class="profile-section">
+                    <h5><i class='bx bxs-group'></i> Red de Afiliados</h5>
+                    <p id="modal-affiliate-network">cargando...</p>
+                </div>
+                <div class="profile-section">
+                    <h5><i class='bx bxs-award'></i> Bonos Desbloqueados</h5>
+                    <p id="modal-unlocked-bonuses">cargando...</p>
+                </div>
+                <div class="profile-section" style="grid-column: 1 / -1;">
+                    <h5><i class='bx bxs-note'></i> Notas de Administrador</h5>
+                    <textarea id="modal-admin-notes" class="notes-textarea" placeholder="Escribe aquí tus notas sobre este usuario..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    // --- LÓGICA FINAL Y COMPLETA PARA EL PANEL DE ADMINISTRADOR ---
+
+    /**
+     * Se activa con el enlace "Ver Expediente".
+     * Pide los datos de un solo usuario al servidor y los muestra en el modal.
+     */
+    function verExpediente(email) {
+        fetch(`/api/usuario/${email}`)
+            .then(response => response.json())
+            .then(user => {
+                if (!user) return alert('No se pudo encontrar la información del usuario.');
+                
+                const modal = document.getElementById('user-profile-modal');
+                if (!modal) return;
+
+                // Llenamos el modal con los datos reales
+                const modalEmail = modal.querySelector('.profile-main-info h4');
+                if (modalEmail) modalEmail.textContent = user.email;
+                
+                const statusPill = modal.querySelector('.status-pill');
+                if (statusPill) {
+                    statusPill.textContent = user.suscripcionActiva ? 'Activo' : 'Inactivo/Pausado';
+                    statusPill.className = `status-pill ${user.suscripcionActiva ? 'approved' : 'inactive'}`;
+                }
+                
+                const rankPill = modal.querySelector('span[style*="background-color: var(--color-accent)"]');
+                if (rankPill) rankPill.textContent = `Rango: ${user.rango}`;
+                
+                const profileSections = modal.querySelectorAll('.profile-section');
+                profileSections.forEach(section => {
+                    const title = section.querySelector('h5');
+                    const p = section.querySelector('p');
+                    if (!p || !title) return;
+
+                    if (title.textContent.includes('Historial de Pagos')) {
+                        if (user.historialPagos && user.historialPagos.length > 0) {
+                            let historialHtml = '<ul style="list-style: none; padding: 0;">';
+                            user.historialPagos.forEach(pago => {
+                                historialHtml += `<li style="margin-bottom: 5px;">${new Date(pago.fecha).toLocaleDateString()}: ${pago.txid}</li>`;
+                            });
+                            historialHtml += '</ul>';
+                            p.innerHTML = historialHtml;
+                        } else {
+                            p.textContent = 'Sin pagos aprobados.';
+                        }
+                    }
+                    if (title.textContent.includes('Red de Afiliados')) {
+                        p.textContent = `${user.conteoReferidosDirectos} Directos / ${user.conteoReferidosTotales} en Total`;
+                    }
+                    if (title.textContent.includes('Bonos Desbloqueados')) {
+                        p.textContent = `${user.bonosDesbloqueados} bonos ganados.`;
+                    }
+                });
+                
+                const notesTextarea = modal.querySelector('.notes-textarea');
+                if (notesTextarea) notesTextarea.value = user.notasAdmin || '';
+
+                modal.classList.add('visible');
+            });
+    }
+
+    /**
+     * Se activa con el botón "Aprobar".
+     */
+    function aprobarUsuario(email) {
+        if (!confirm(`¿Estás seguro de que quieres aprobar al usuario ${email}?`)) return;
+        fetch('/api/aprobar-usuario', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) })
+        .then(res => res.json()).then(data => {
+            if (data.success) { alert('Usuario aprobado'); cargarTodosLosUsuarios(); } 
+            else { alert('Error al aprobar.'); }
+        });
+    }
+
+    /**
+     * Se activa con el enlace "Pausar Suscripción".
+     */
+    function pausarSuscripcion(email) {
+        if (!confirm(`¿Estás seguro de que quieres pausar la suscripción para ${email}?`)) return;
+        fetch('/api/pausar-suscripcion', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) })
+        .then(res => res.json()).then(data => {
+            if (data.success) { alert('Suscripción pausada.'); cargarTodosLosUsuarios(); }
+            else { alert('Error al pausar.'); }
+        });
+    }
+
+    /**
+     * Se activa con el enlace "Reactivar Suscripción".
+     */
+    function reactivarSuscripcion(email) {
+        if (!confirm(`¿Estás seguro de que quieres reactivar la suscripción para ${email}?`)) return;
+        fetch('/api/reactivar-suscripcion', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) })
+        .then(res => res.json()).then(data => {
+            if (data.success) { alert('Suscripción reactivada.'); cargarTodosLosUsuarios(); }
+            else { alert('Error al reactivar.'); }
+        });
+    }
+
+    /**
+     * Se activa con el enlace "Dar de Baja".
+     */
+    function darDeBaja(email) {
+        if (!confirm(`ADVERTENCIA: ¿Estás seguro de que quieres eliminar permanentemente al usuario ${email}?`)) return;
+        fetch('/api/eliminar-usuario', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) })
+        .then(res => res.json()).then(data => {
+            if (data.success) { alert('Usuario eliminado.'); cargarTodosLosUsuarios(); }
+            else { alert('Error al eliminar.'); }
+        });
+    }
+
+    /**
+     * Pide al servidor la lista completa de usuarios y la muestra en la tabla.
+     */
+    function cargarTodosLosUsuarios() {
+        fetch('/api/todos-los-usuarios')
+            .then(response => {
+                if (!response.ok) throw new Error('La respuesta de la red no fue OK');
+                return response.json();
+            })
+            .then(usuarios => {
+                const tbody = document.getElementById('lista-usuarios');
+                if (!tbody) return;
+
+                tbody.innerHTML = '';
+                
+                if (usuarios.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay usuarios para mostrar.</td></tr>';
+                    return;
+                }
+
+                usuarios.forEach(user => {
+                    let estadoHtml = '';
+                    let accionesHtml = '';
+
+                    if (user.estatusPago === 'pendiente_verificacion') {
+                        estadoHtml = `<span class="status-pill pending">Pendiente</span>`;
+                        accionesHtml = `<span>${user.txid || '-'}</span> <button class="btn-approve" onclick="aprobarUsuario('${user.email}')">Aprobar</button>`;
+                    } else if (user.estatusPago === 'aprobado' || user.estatusPago === 'pausado') {
+                        let menuPausaReactiva = '';
+                        if (user.suscripcionActiva) {
+                            estadoHtml = `<span class="status-pill approved">Activo</span>`;
+                            menuPausaReactiva = `<li><a href="#" onclick="pausarSuscripcion('${user.email}')"><i class='bx bx-pause-circle'></i> Pausar Suscripción</a></li>`;
+                        } else {
+                            estadoHtml = `<span class="status-pill inactive">Pausado</span>`;
+                            menuPausaReactiva = `<li><a href="#" style="color: var(--color-success);" onclick="reactivarSuscripcion('${user.email}')"><i class='bx bx-play-circle'></i> Reactivar</a></li>`;
+                        }
+                        accionesHtml = `<button class="actions-btn"><i class='bx bx-dots-horizontal-rounded'></i></button>
+                                      <ul class="actions-menu">
+                                          <li><a href="#" onclick="event.preventDefault(); verExpediente('${user.email}')"><i class='bx bx-id-card'></i> Ver Expediente</a></li>
+                                          ${menuPausaReactiva}
+                                          <li style="border-top: 1px solid var(--color-border);"><a href="#" class="danger" onclick="darDeBaja('${user.email}')"><i class='bx bx-trash'></i> Dar de Baja</a></li>
+                                      </ul>`;
+                    } else {
+                        estadoHtml = `<span class="status-pill inactive">Pendiente de Pago</span>`;
+                        accionesHtml = `<span>-</span>`;
+                    }
+                    
+                    const row = `
+                        <tr>
+                            <td>${user.email || 'N/A'}</td>
+                            <td>${user.rango}</td>
+                            <td>${user.diasRestantes} días</td>
+                            <td>${estadoHtml}</td>
+                            <td class="actions-cell">${accionesHtml}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+                
+                activarMenusDeAcciones();
+            })
+            .catch(error => {
+                console.error('Error al cargar los usuarios:', error);
+                const tbody = document.getElementById('lista-usuarios');
+                if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: red;">Error al cargar datos del servidor.</td></tr>';
+            });
+    }
+
+    /**
+     * Lógica para hacer funcionar los menús de "..." y los modales.
+     */
+    function activarMenusDeAcciones() {
+        document.querySelectorAll('.actions-btn').forEach(button => {
+            if (button.getAttribute('data-listener') !== 'true') {
+                button.setAttribute('data-listener', 'true');
+                button.addEventListener('click', e => {
+                    e.stopPropagation();
+                    let currentMenu = button.nextElementSibling;
+                    document.querySelectorAll('.actions-menu.active').forEach(menu => {
+                        if (menu !== currentMenu) menu.classList.remove('active');
+                    });
+                    if (currentMenu) currentMenu.classList.toggle('active');
+                });
+            }
+        });
+    }
+
+    /**
+     * Evento principal que se dispara cuando la página está lista.
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+        cargarTodosLosUsuarios();
+        
+        window.addEventListener('click', () => {
+            document.querySelectorAll('.actions-menu.active').forEach(menu => menu.classList.remove('active'));
+        });
+
+        const modal = document.getElementById('user-profile-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        if(closeModalBtn) { closeModalBtn.addEventListener('click', () => { modal.classList.remove('visible'); }); }
+        if(modal) { modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('visible'); }); }
+    });
+</script>
+</body>
+</html>

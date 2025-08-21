@@ -1,0 +1,116 @@
+/* =================================================================
+   ESTILOS PÚBLICOS Y DE USUARIO PARA invertLATAM
+   ================================================================= */
+
+/* --------------------------------
+   01. VARIABLES Y CONFIGURACIÓN GENERAL
+   --------------------------------- */
+:root {
+    --color-background: #0A0A0A;
+    --color-surface: #1d1d1d;
+    --color-glass: rgba(26, 26, 26, 0.6);
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #a0a0a0;
+    --color-accent: #D4AF37; /* Dorado */
+    --color-border: rgba(255, 255, 255, 0.1);
+    --color-success: #2ECC71;
+    --font-main: 'Inter', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+}
+.aurora-bg::before {
+    content: ''; position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: radial-gradient(circle at 15% 85%, rgba(255, 255, 255, 0.05), transparent 40%),
+                radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.1), transparent 40%);
+    animation: aurora 25s infinite alternate;
+    z-index: -1;
+}
+@keyframes aurora { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.btn { display: inline-block; text-decoration: none; padding: 0.85rem 1.5rem; border-radius: 8px; font-weight: 700; transition: all 0.3s ease; border: none; cursor: pointer; }
+.btn-primary { background-color: var(--color-accent); color: #111; }
+.btn-primary:hover { opacity: 0.9; transform: scale(1.02); }
+.scroll-animate { opacity: 0; transform: translateY(50px); transition: opacity 0.8s ease-out; }
+.scroll-animate.animated { opacity: 1; transform: translateY(0); }
+
+/* --------------------------------
+   02. ESTILOS PÁGINA PRINCIPAL (index.html)
+   --------------------------------- */
+.header {
+    padding: 1.5rem 2rem; position: fixed; width: 100%; top: 0; left: 0; z-index: 100;
+    background: rgba(17, 17, 17, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--color-border);
+}
+.navbar { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 1.5rem; font-weight: 700; color: var(--color-text-primary); text-decoration: none; display: flex; align-items: center; gap: 0.75rem; }
+.logo img { height: 40px; } /* Estilo para tu logo */
+.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--color-text-secondary); font-weight: 500; transition: color 0.3s ease; }
+.nav-links a:hover { color: var(--color-accent); }
+.hero { position: relative; text-align: center; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.hero-content { padding: 2rem; animation: fadeInUp 1s ease-out forwards; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.hero h1 { font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; }
+.hero .highlight { color: var(--color-accent); }
+.hero p { max-width: 600px; margin: 0 auto 2.5rem auto; font-size: 1.125rem; line-height: 1.7; color: var(--color-text-secondary); }
+.features-section { padding: 8rem 0; }
+.footer { text-align: center; padding: 4rem 2rem 2rem 2rem; margin-top: 4rem; border-top: 1px solid var(--color-border); }
+.social-links { margin-bottom: 1.5rem; display: flex; justify-content: center; gap: 1.5rem; }
+.social-links a { font-size: 1.8rem; color: var(--color-text-secondary); transition: color 0.3s ease, transform 0.3s ease; }
+.social-links a:hover { color: var(--color-accent); transform: scale(1.2); }
+.footer p { color: var(--color-text-secondary); font-size: 0.9rem; }
+
+/* --------------------------------
+   03. ESTILOS PARA LOGIN Y PAGO
+   --------------------------------- */
+.access-body { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem; }
+.access-terminal {
+    width: 100%; max-width: 420px; padding: 2.5rem 3rem; position: relative; overflow: hidden;
+    background: var(--color-glass); border: 1px solid var(--color-border); border-radius: 24px;
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); animation: fadeIn 1s ease-out;
+}
+.access-terminal::before {
+    content: ""; position: absolute; top: -1px; left: -1px; width: calc(100% + 2px); height: calc(100% + 2px);
+    background: conic-gradient(from 180deg at 50% 50%, rgba(212, 175, 55, 0.6) 0deg, rgba(212, 175, 55, 0.1) 60deg, transparent 120deg, transparent 360deg);
+    animation: rotate-border 8s linear infinite; z-index: -1;
+}
+@keyframes rotate-border { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+/* ... (y el resto de estilos para los formularios de login y pago) ... */
+
+
+/* --------------------------------
+   04. ESTILOS PARA DASHBOARD DE USUARIO
+   --------------------------------- */
+.dashboard-container { display: flex; flex-direction: column; min-height: 100vh; overflow: hidden; }
+.main-content-wrapper { flex-grow: 1; overflow-y: auto; }
+.dashboard-header {
+    padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--color-border); position: sticky; top: 0;
+    background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(10px); z-index: 100;
+}
+.header-right { display: flex; align-items: center; gap: 1.5rem; }
+.user-welcome strong { display: block; color: var(--color-text-primary); }
+.user-welcome span { font-size: 0.8rem; color: var(--color-text-secondary); }
+.logout-link { color: var(--color-text-secondary); text-decoration: none; font-size: 1.5rem; }
+.tabs-nav { display: flex; gap: 1rem; padding: 1.5rem 2.5rem 0 2.5rem; border-bottom: 1px solid var(--color-border); }
+.tab-link { padding: 1rem; background: none; border: none; color: var(--color-text-secondary); font-family: var(--font-main); font-size: 1rem; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; }
+.tab-link.active { color: var(--color-accent); border-bottom-color: var(--color-accent); }
+.tab-content { padding: 2.5rem; }
+.tab-pane { display: none; animation: fadeIn 0.5s ease-out; }
+.tab-pane.active { display: block; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.course-card .icon { font-size: 3rem; color: var(--color-accent); margin-bottom: 1rem; }
+.progress-bar { width: 100%; height: 6px; background-color: #333; border-radius: 3px; }
+.progress { height: 100%; background-color: var(--color-accent); border-radius: 3px; }
+.support-float { position: fixed; bottom: 2rem; right: 2rem; width: 60px; height: 60px; background-color: var(--color-accent); color: var(--color-background); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2rem; text-decoration: none; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3); }

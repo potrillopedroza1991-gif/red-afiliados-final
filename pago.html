@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completar Pago - invertLATAM</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        :root {
+            --color-background: #0A0A0A;
+            --color-surface-glass: rgba(26, 26, 26, 0.6);
+            --color-text-primary: #FFFFFF;
+            --color-text-secondary: #A0A0A0;
+            --color-accent: #D4AF37;
+            --color-border: rgba(255, 255, 255, 0.1);
+            --color-btc: #F7931A;
+            --font-main: 'Inter', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-background);
+            color: var(--color-text-primary);
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 15% 85%, rgba(255, 255, 255, 0.05), transparent 40%),
+                        radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.1), transparent 40%);
+            animation: aurora 25s infinite alternate;
+            z-index: -1;
+        }
+        @keyframes aurora { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .payment-terminal {
+            width: 100%;
+            max-width: 480px;
+            background: var(--color-surface-glass);
+            border: 1px solid var(--color-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+        .payment-terminal::before {
+            content: ""; position: absolute; top: -1px; left: -1px; width: calc(100% + 2px); height: calc(100% + 2px);
+            background: conic-gradient(from 180deg at 50% 50%, rgba(212, 175, 55, 0.6) 0deg, rgba(212, 175, 55, 0.1) 60deg, transparent 120deg, transparent 360deg);
+            animation: rotate-border 8s linear infinite;
+            z-index: -1;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .terminal-header { text-align: center; margin-bottom: 2rem; }
+        .terminal-header .logo { font-size: 1.8rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--color-text-primary); }
+        .terminal-header .logo .bxs-horse { font-size: 2.5rem; color: var(--color-accent); }
+        .terminal-header h2 { font-size: 1.5rem; }
+        .step { margin-bottom: 1.5rem; }
+        .step-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .step-number { width: 32px; height: 32px; border: 2px solid var(--color-accent); color: var(--color-accent); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 700; flex-shrink: 0; }
+        .step-header h3 { font-size: 1.2rem; }
+        .step-content p { color: var(--color-text-secondary); margin-bottom: 1rem; font-size: 0.9rem; }
+        .qr-code-placeholder { width: 150px; height: 150px; background-image: url('QRBITSO.png'); background-size: cover; }
+        .btc-info { text-align: center; margin-top: 1rem; }
+        .btc-info .amount { font-size: 1.2rem; font-weight: 700; color: var(--color-btc); }
+        .form-group input { width: 100%; padding: 0.85rem 1rem; background: rgba(0,0,0,0.2); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text-primary); font-size: 1rem; }
+        .btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; padding: 1rem 1.5rem; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; width: 100%; cursor: pointer; border: none; font-size: 1.1rem; }
+        .btn-primary { background-color: var(--color-accent); color: #111111; font-weight: 700; }
+        .btn-primary:hover { opacity: 0.9; transform: scale(1.02); }
+        .secure-footer { margin-top: 2rem; text-align: center; font-size: 0.8rem; color: var(--color-text-secondary); display: flex; justify-content: center; align-items: center; gap: 0.5rem; }
+    </style>
+</head>
+<body class="aurora-bg access-body">
+    <div class="payment-terminal">
+        <div class="terminal-header">
+            <a href="index.html" class="logo"><i class='bx bxs-horse'></i><span>invertLATAM</span></a>
+            <h2>Terminal de Pago Seguro</h2>
+        </div>
+
+        <div class="step">
+            <div class="step-header"><div class="step-number">1</div><h3>Realiza el Envío</h3></div>
+            <div class="step-content" style="text-align: center;">
+                <p>Envía la cantidad exacta a la siguiente dirección de Bitcoin (BTC).</p>
+                <div class="qr-code-placeholder" style="background-image: url('QRBITSO.png');"></div>
+                <div class="btc-info"><div class="amount"><i class='bx bxl-bitcoin'></i> 0.0015 BTC</div></div>
+            </div>
+        </div>
+
+        <form action="/confirmar-pago" method="POST">
+            <div class="step">
+                <div class="step-header"><div class="step-number">2</div><h3>Confirma tu Pago</h3></div>
+                <div class="step-content">
+                    <p>Para acelerar tu activación, pega el ID de la Transacción (TxID) que te dio tu wallet después de enviar.</p>
+                    <div class="form-group">
+                        <input type="text" id="txid" name="txid" placeholder="Pega aquí el ID de la Transacción..." required>
+                    </div>
+
+                    <input type="hidden" id="user-email" name="email" value="">
+
+                    <button type="submit" class="btn btn-primary"><i class='bx bx-send'></i> Confirmar Pago</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="secure-footer">
+            <i class='bx bxs-lock-alt'></i><span>Tu cuenta se activará al verificar la transacción.</span>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const email = params.get('email');
+        if (email) {
+            document.getElementById('user-email').value = email;
+        }
+    </script>
+</body>
+</html>

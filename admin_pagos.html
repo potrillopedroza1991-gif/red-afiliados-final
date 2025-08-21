@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Pagos - Admin Panel</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="style_admin.css">
+</head>
+<body class="aurora-bg">
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="admin_usuarios.html" class="logo"><i class='bx bxs-shield-alt-2'></i><span>Admin Panel</span></a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group-title">Principal</div>
+                <ul>
+                    <li><a href="estadistica.html"><i class='bx bxs-bar-chart-alt-2'></i><span>Estadísticas</span></a></li>
+                    <li><a href="admin_pagos.html" class="active"><i class='bx bxs-wallet'></i><span>Pagos</span></a></li>
+                    <li><a href="admin_usuarios.html"><i class='bx bxs-user-detail'></i><span>Usuarios</span></a></li>
+                    <li><a href="admin_contenido.html"><i class='bx bxs-videos'></i><span>Contenido</span></a></li>
+                    <li><a href="admin_redes.html"><i class='bx bxl-whatsapp-square'></i><span>Redes Sociales</span></a></li>
+                </ul>
+                <div class="nav-group-title">Ajustes</div>
+                <ul>
+                    <li><a href="#"><i class='bx bxs-cog'></i><span>Configuración</span></a></li>
+                    <li><a href="login.html"><i class='bx bx-log-out-circle'></i><span>Cerrar Sesión</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar">C</div>
+                    <div class="user-profile-info">
+                        <span class="user-name">Christian</span>
+                        <span class="user-rank">Super Admin</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h2>Gestión de Pagos</h2>
+                <p>Verifica pagos de nuevos miembros y gestiona las comisiones de tus afiliados.</p>
+            </header>
+
+            <div class="content-section">
+                <div class="glass-card">
+                    <h3 class="card-header">Pagos de Clientes por Verificar</h3>
+                    <table>
+                        <thead><tr><th>Usuario</th><th>ID de Transacción (TxID)</th><th>Acción</th></tr></thead>
+                        <tbody id="lista-pendientes"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <div class="glass-card">
+                    <h3 class="card-header">Comisiones de Afiliados por Pagar</h3>
+                    <table>
+                        <thead><tr><th>Afiliado</th><th>Monto a Pagar</th><th>Estado</th><th style="text-align: right;">Acción</th></tr></thead>
+                        <tbody id="lista-comisiones"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div id="payout-modal" class="modal-overlay">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3>Realizar Pago a Afiliado</h3>
+                <button id="close-modal-btn" class="close-button" title="Cerrar">&times;</button>
+            </div>
+            <div class="payment-info">
+                <p><strong>Pagar a:</strong> <span id="modal-afiliado-email"></span></p>
+                <p><strong>Monto:</strong> <span id="modal-afiliado-monto" style="color: var(--color-accent); font-weight: bold;"></span></p>
+                <div class="wallet-address">
+                    <span id="modal-afiliado-wallet"></span>
+                    <button id="copy-btn" title="Copiar Wallet"><i class='bx bx-copy'></i></button>
+                </div>
+                <div class="form-group">
+                    <label for="txid-pago">ID de Transacción (Tu Registro)</label>
+                    <input type="text" id="txid-pago" placeholder="Pega aquí el TxID de tu envío">
+                </div>
+                <button id="marcar-pagado-btn" class="btn" style="background-color: var(--color-success); color: white; width: 100%; margin-top: 1rem;">Marcar como Pagado</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let afiliadoActual = {};
+
+        function abrirModalDePago(email, monto, wallet) {
+            afiliadoActual = { email, monto, wallet };
+            document.getElementById('modal-afiliado-email').textContent = email;
+            document.getElementById('modal-afiliado-monto').textContent = `$${monto.toFixed(2)}`;
+            document.getElementById('modal-afiliado-wallet').textContent = wallet;
+            document.getElementById('payout-modal').classList.add('visible');
+        }
+
+        function marcarComoPagado() {
+            const txidInput = document.getElementById('txid-pago');
+            if (!txidInput.value) { return alert('Por favor, ingresa el ID de la transacción que realizaste.'); }
+            fetch('/api/marcar-pagado', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: afiliadoActual.email, txidPagoAdmin: txidInput.value })
+            })
+            .then(res => res.json()).then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    document.getElementById('payout-modal').classList.remove('visible');
+                    cargarDatosDelPanel();
+                } else { alert('Error al marcar la comisión como pagada.'); }
+            });
+        }
+
+        function aprobarUsuario(email) {
+            if (!confirm(`¿Aprobar al usuario ${email}?`)) return;
+            fetch('/api/aprobar-usuario', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) })
+            .then(res => res.json()).then(data => {
+                if (data.success) { alert('Usuario aprobado'); cargarDatosDelPanel(); } 
+                else { alert('Error al aprobar.'); }
+            });
+        }
+        
+        function cargarDatosDelPanel() {
+            fetch('/api/usuarios-pendientes').then(res => res.json()).then(pendientes => {
+                const tbody = document.getElementById('lista-pendientes');
+                let rowsHtml = pendientes.map(user => `<tr><td>${user.email}</td><td><a href="https://www.blockchain.com/explorer/search?search=${user.txid}" target="_blank">${user.txid}</a></td><td><button class="btn btn-approve" onclick="aprobarUsuario('${user.email}')">Aprobar</button></td></tr>`).join('');
+                tbody.innerHTML = rowsHtml || '<tr><td colspan="3" style="text-align: center;">No hay pagos por verificar.</td></tr>';
+            });
+
+            fetch('/api/comisiones-por-pagar').then(res => res.json()).then(pagos => {
+                const tbody = document.getElementById('lista-comisiones');
+                let rowsHtml = pagos.map(pago => `<tr><td>${pago.email}</td><td style="color: var(--color-success); font-weight: 700;">$${pago.montoAPagar.toFixed(2)}</td><td><span class="status-pill pending">Pendiente</span></td><td style="text-align: right;"><button class="btn btn-pay" ... onclick="abrirModalDePago('${pago.email}', ${pago.montoAPagar}, '${pago.walletBTC}')">Pagar</button> ...</td></tr>`).join('');
+                tbody.innerHTML = rowsHtml || '<tr><td colspan="4" style="text-align: center;">No hay comisiones por pagar.</td></tr>';
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarDatosDelPanel();
+            const modal = document.getElementById('payout-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const marcarPagadoBtn = document.getElementById('marcar-pagado-btn');
+
+            if (closeModalBtn) closeModalBtn.addEventListener('click', () => modal.classList.remove('visible'));
+            if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('visible'); });
+            if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(document.getElementById('modal-afiliado-wallet').textContent).then(() => alert('¡Dirección copiada!'));
+                });
+            }
+            if(marcarPagadoBtn){
+                marcarPagadoBtn.addEventListener('click', marcarComoPagado);
+            }
+        });
+    </script>
+</body>
+</html>
