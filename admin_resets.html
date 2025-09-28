@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Códigos de Recuperación - Admin Panel</title>
+    
+    <link rel="stylesheet" href="style_admin.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .code-display {
+            background-color: var(--color-surface);
+            color: var(--color-accent);
+            font-family: monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            letter-spacing: 2px;
+        }
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-left: 1rem;
+            font-size: 1.2rem;
+            vertical-align: middle;
+        }
+        .copy-btn:hover {
+            background-color: var(--color-surface);
+            color: var(--color-accent);
+        }
+        .email-link {
+            color: var(--color-text-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .email-link:hover {
+            text-decoration: underline;
+            color: var(--color-accent);
+        }
+        .fila-copiada {
+            opacity: 0.5;
+            background-color: var(--color-surface);
+        }
+        .fila-copiada .copy-btn {
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="aurora-bg">
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header"><a href="admin_usuarios.html" class="logo"><i class='bx bxs-shield-alt-2'></i><span>Admin Panel</span></a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group-title">Principal</div>
+                <ul>
+                    <li><a href="estadistica.html"><i class='bx bxs-bar-chart-alt-2'></i><span>Estadísticas</span></a></li>
+                    <li><a href="admin_pagos.html"><i class='bx bxs-wallet'></i><span>Pagos</span></a></li>
+                    <li><a href="admin_usuarios.html"><i class='bx bxs-user-detail'></i><span>Gestión Usuarios</span></a></li>
+                    <li><a href="admin_contenido.html"><i class='bx bxs-user-account'></i><span>Expediente Usuario</span></a></li>
+                    <li><a href="admin_redes.html"><i class='bx bxs-video-plus'></i><span>Gestor de Contenido</span></a></li>
+                </ul>
+                <div class="nav-group-title">Ajustes</div>
+                <ul>
+                    <li><a href="admin_resets.html" class="active"><i class='bx bxs-key'></i><span>Recuperación</span></a></li>
+                    <li><a href="#"><i class='bx bxs-cog'></i><span>Configuración</span></a></li>
+                    <li><a href="login.html"><i class='bx bx-log-out-circle'></i><span>Cerrar Sesión</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h2>Códigos de Recuperación</h2>
+                <p>Aquí aparecen las solicitudes de usuarios que olvidaron su contraseña.</p>
+            </header>
+            
+            <div class="content-section">
+                <div class="glass-card">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Email del Usuario</th>
+                                    <th style="text-align: center;">Código de Recuperación</th>
+                                    <th style="text-align: right;">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista-resets">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    function copiarCodigo(codigo, email, elementoBoton) {
+        if (!codigo || elementoBoton.disabled) return;
+        
+        navigator.clipboard.writeText(codigo).then(() => {
+            alert('¡Código copiado!');
+            
+            // Avisamos al servidor que ya atendimos esta solicitud
+            fetch('/api/marcar-reset-copiado', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email }),
+                credentials: 'include'
+            });
+
+            // Cambiamos el estilo visualmente
+            const fila = elementoBoton.closest('tr');
+            if (fila) {
+                fila.classList.add('fila-copiada');
+                elementoBoton.disabled = true;
+            }
+        });
+    }
+
+    function cargarSolicitudes() {
+        fetch('/api/resets-pendientes', { credentials: 'include' })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        window.location.href = '/admin-login.html';
+                    }
+                    return Promise.reject('No autorizado');
+                }
+                return response.json();
+            })
+            .then(solicitudes => {
+                const tbody = document.getElementById('lista-resets');
+                tbody.innerHTML = '';
+
+                if (solicitudes.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No hay solicitudes pendientes.</td></tr>';
+                    return;
+                }
+
+                solicitudes.forEach(solicitud => {
+                    const claseFila = solicitud.resetCodeHandled ? 'fila-copiada' : '';
+                    const botonDisabled = solicitud.resetCodeHandled ? 'disabled' : '';
+                    const row = `
+                        <tr class="${claseFila}">
+                            <td>
+                                <a href="mailto:${solicitud.email}" class="email-link">${solicitud.email}</a>
+                            </td>
+                            <td style="text-align: center;">
+                                <span class="code-display">${solicitud.resetPasswordCode}</span>
+                            </td>
+                            <td style="text-align: right;">
+                                <button class="copy-btn" onclick="copiarCodigo('${solicitud.resetPasswordCode}', '${solicitud.email}', this)" ${botonDisabled} title="Copiar Código">
+                                    <i class='bx bx-copy'></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            })
+            .catch(error => {
+                if (error.message !== 'No autorizado') {
+                    console.error('Error al cargar las solicitudes:', error);
+                }
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', cargarSolicitudes);
+</script>
+</body>
+</html>

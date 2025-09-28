@@ -4,158 +4,179 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - invertLATAM</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
     <link rel="stylesheet" href="usuarios.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .btn-cta {
+            display: inline-block;
+            text-decoration: none;
+            background: linear-gradient(90deg, var(--color-accent), #ffdf70);
+            color: #111;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 700;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+        }
+        .card-header-link {
+            text-decoration: none;
+            color: var(--color-accent);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+        .card-header-link:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+    </style>
 </head>
-<body class="aurora-bg">
+<body>
+    <div class="particles-background">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
     <div class="dashboard-container">
         <div class="main-content-wrapper">
             <header class="dashboard-header">
                 <div class="header-left">
                     <img src="1000013641.jpg" alt="Logo de invertLATAM" class="logo-img">
-                    <a href="index.html" class="logo">
-                        <span>invertLATAM</span>
-                    </a>
+                    <a href="index.html" class="logo"><span>invertLATAM</span></a>
                 </div>
                 <div class="header-right">
-                    <a href="#" class="notification-bell" title="Notificaciones"><i class='bx bxs-bell'></i></a>
                     <div class="user-welcome">
                         <strong id="user-name">Cargando...</strong>
-                        <span id="user-rank">Rango: Cargando...</span>
+                        <span id="user-rank">Cargando...</span>
                     </div>
                     <a href="login.html" class="logout-link" title="Cerrar Sesión"><i class='bx bx-log-out'></i></a>
                 </div>
             </header>
+            
             <nav class="tabs-nav">
                 <button class="tab-link active" data-tab="inicio">Inicio</button>
                 <button class="tab-link" data-tab="cursos">Mis Cursos</button>
                 <button class="tab-link" data-tab="red">Mi Red</button>
                 <button class="tab-link" data-tab="herramientas">Herramientas</button>
+                <button class="tab-link" data-tab="historial">Mi Historial</button>
             </nav>
 
             <div class="tab-content">
                 <div id="inicio" class="tab-pane active">
                     <div class="grid">
-                        <div class="glass-card status-card">
-                            <div class="label">Estado de Suscripción</div>
-                            <div id="subscription-status" class="value">Cargando...</div>
-                        </div>
-                        <div class="glass-card status-card">
-                            <div class="label">Próximo Pago en</div>
-                            <div id="days-remaining" class="value">--</div>
-                        </div>
+                        <div class="glass-card status-card"><div class="label">Estado de Suscripción</div><div id="subscription-status" class="value">Cargando...</div></div>
+                        <div class="glass-card status-card"><div class="label">Próximo Pago en</div><div id="days-remaining" class="value">--</div></div>
                     </div>
                 </div>
-
                 <div id="cursos" class="tab-pane">
-                    <div id="cursos-content" style="display: none;">
-                        <h2 class="section-title">Catálogo de Formación</h2>
-                        <div class="grid"></div>
-                    </div>
-                    <div id="cursos-paywall" class="glass-card" style="text-align: center;">
-                        <h3>Contenido Bloqueado</h3>
-                        <p>Tu suscripción no está activa. Completa o renueva tu pago para acceder a los cursos.</p>
-                        <a href="/pago.html" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">Ir a Pagar</a>
-                    </div>
+                    <div id="cursos-content" style="display: none;"><h2 class="section-title">Catálogo de Formación</h2><div class="grid"></div></div>
+                    <div id="cursos-paywall" class="glass-card" style="text-align: center;"><h3>Contenido Bloqueado</h3><p>Tu suscripción no está activa.</p><a href="/pago.html" class="btn-cta">Ir a Pagar</a></div>
                 </div>
-                
                 <div id="red" class="tab-pane">
                     <h2 class="section-title">Tu Panel de Afiliado</h2>
                     <div class="grid" style="margin-bottom: 2rem;">
-                        <div class="glass-card status-card">
-                            <div class="label">Ganancias Pendientes</div>
-                            <div id="month-earnings" class="value" style="color: var(--color-success);">$0.00</div> </div>
-                        <div class="glass-card status-card">
-                            <div class="label">Referidos Directos</div>
-                            <div id="direct-referrals" class="value">0</div>
-                        </div>
-                        <div class="glass-card status-card">
-                            <div class="label">Total en tu Red</div>
-                            <div id="total-network" class="value">0</div>
-                        </div>
-                    </div>                       
+                        <div class="glass-card status-card"><div class="label">Ganancias Pendientes</div><div id="month-earnings" class="value" style="color: var(--color-success);">$0.00</div></div>
+                        <div class="glass-card status-card"><div class="label">Referidos Directos</div><div id="direct-referrals" class="value">0</div></div>
+                        <div class="glass-card status-card"><div class="label">Total en tu Red</div><div id="total-network" class="value">0</div></div>
+                    </div>
                     <div class="glass-card">
                         <p style="font-size: 1.2rem; font-weight: 700;">Tu Enlace de Referido</p>
-                        <div class="link-input-group">
-                            <input id="referral-link" type="text" value="Cargando..." readonly>
-                            <button onclick="copiarEnlace()">Copiar</button>
-                        </div>
-                        <div style="margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
-                            <label for="wallet-address" style="display: block; margin-bottom: 0.75rem;">Mi Dirección de Pago (BTC)</label>
-                            <input type="text" id="wallet-address" class="styled-input" placeholder="Pega aquí tu dirección de Bitso...">
-                            <button id="save-wallet-btn" class="modern-btn">Guardar Dirección</button>
-                        </div>
+                        <div class="link-input-group"><input id="referral-link" type="text" value="Cargando..." readonly><button onclick="copiarEnlace()">Copiar</button></div>
+                        <div style="margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;"><label for="wallet-address">Mi Dirección de Pago (BTC)</label><input type="text" id="wallet-address" class="styled-input" placeholder="Pega aquí tu dirección de Bitso..."><button id="save-wallet-btn" class="modern-btn">Guardar Dirección</button></div>
                     </div>
-                     <div class="glass-card" style="margin-top: 2rem;">
-                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Mi Red de Afiliados (Niveles 1-5)</h3>
-                        <table class="referrals-table">
-                            <thead><tr><th>Nombre</th><th>Nivel</th><th>Estado</th><th>Días Restantes</th><th>Comisión</th></tr></thead>
-                            <tbody id="lista-referidos"></tbody>
-                        </table>
-                    </div>
-                    <div class="glass-card affiliate-cta" style="margin-top: 2rem;">
-                        <a href="afiliados.html" class="btn btn-primary" style="display: inline-block; width: auto;">Ver Simulador y Plan de Compensación</a>
+                   <div class="glass-card" style="margin-top: 2rem;">
+                        <div class="card-header" style="margin-bottom: 1rem;"><h3 style="font-size: 1.5rem;">Mi Red de Afiliados</h3><a href="afiliados.html" class="card-header-link">Ver Simulador y Plan <i class='bx bx-right-arrow-alt'></i></a></div>
+                        <table><thead><tr><th>Nombre</th><th>Email</th><th>Nivel</th><th>Fecha de Ingreso</th><th>Estado</th></tr></thead><tbody id="lista-referidos"></tbody></table>
                     </div>
                 </div>
-
                 <div id="herramientas" class="tab-pane">
-                     <div id="herramientas-content" style="display: none;">
-                        <h2 class="section-title">Descarga de Herramientas</h2>
-                        <div class="grid"></div>
-                    </div>
-                    <div id="herramientas-paywall" class="glass-card" style="text-align: center;">
-                        <h3>Contenido Bloqueado</h3>
-                        <p>Tu suscripción no está activa. Completa o renueva tu pago para acceder a las herramientas.</p>
-                        <a href="/pago.html" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">Ir a Pagar</a>
+                    <div id="herramientas-content" style="display: none;"><h2 class="section-title">Descarga de Herramientas</h2><div class="grid"></div></div>
+                    <div id="herramientas-paywall" class="glass-card" style="text-align: center;"><h3>Contenido Bloqueado</h3><p>Tu suscripción no está activa.</p><a href="/pago.html" class="btn-cta">Ir a Pagar</a></div>
+                </div>
+                <div id="historial" class="tab-pane">
+                    <h2 class="section-title">Historial de Transacciones</h2>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 2rem;">
+                        <div class="glass-card">
+                            <h3 style="margin-bottom: 1rem;">Pagos de Suscripción (Realizados)</h3>
+                            <table><thead><tr><th>Fecha</th><th>Monto</th><th>ID de Transacción (TXID)</th></tr></thead><tbody id="historial-suscripciones"></tbody></table>
+                        </div>
+                        <div class="glass-card">
+                            <h3 style="margin-bottom: 1rem;">Comisiones Pagadas (Recibidas)</h3>
+                            <table><thead><tr><th>Fecha</th><th>Monto</th><th>Tipo</th><th>ID de Transacción (TXID)</th></tr></thead><tbody id="historial-comisiones-pagadas"></tbody></table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="floating-socials">
-                <a href="#" class="social-bubble" title="YouTube"><i class='bx bxl-youtube'></i></a>
-                <a href="#" class="social-bubble" title="Instagram"><i class='bx bxl-instagram'></i></a>
-                <a href="#" class="social-bubble" title="Contáctanos"><i class='bx bxs-phone'></i></a>
             </div>
         </div>
     </div>
+    <div class="floating-socials">
+        <a href="#" class="social-bubble" title="WhatsApp"><i class='bx bxl-whatsapp'></i></a>
+        <a href="#" class="social-bubble" title="Telegram"><i class='bx bxl-telegram'></i></a>
+        <a href="#" class="social-bubble" title="Instagram"><i class='bx bxl-instagram'></i></a>
+        <a href="#" class="social-bubble" title="YouTube"><i class='bx bxl-youtube'></i></a>
+        <a href="#" class="social-bubble" title="Facebook"><i class='bx bxl-facebook-square'></i></a>
+    </div>
+
 <script>
-    /**
-     * Copia el enlace de referido al portapapeles.
-     */
+    function getRankIcon(rango) {
+        const iconos = {
+            "Usuario": "bxs-user-circle",
+            "Líder": "bxs-leaf",
+            "Asistente": "bxs-shield-alt-2",
+            "Coordinador": "bxs-torch",
+            "Supervisor": "bxs-crown",
+            "Gerente": "bxs-diamond",
+            "Director": "bxs-rocket",
+            "Presidente": "bxs-castle",
+            "CEO": "bxs-ghost",
+            "CEO Máximo": "bxs-skull"
+        };
+        return iconos[rango] || 'bxs-user';
+    }
+
     function copiarEnlace() {
         const linkInput = document.getElementById('referral-link');
         if (linkInput) {
             linkInput.select();
-            linkInput.setSelectionRange(0, 99999); // Para celulares
-            document.execCommand('copy');
-            alert('¡Enlace de referido copiado!');
+            linkInput.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(linkInput.value).then(() => {
+                alert('¡Enlace de referido copiado!');
+            });
         }
     }
 
-    /**
-     * Envía la nueva wallet al servidor para guardarla.
-     */
-    function guardarWallet() {
-        const walletInput = document.getElementById('wallet-address');
-        if (walletInput) {
-            fetch('/api/guardar-wallet', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ walletBTC: walletInput.value })
-            })
-            .then(res => res.json())
-            .then(data => alert(data.message || 'Error'));
-        }
+  function guardarWallet() {
+    const walletInput = document.getElementById('wallet-address');
+    const walletAddress = walletInput.value.trim();
+
+    if (walletAddress === "") {
+        alert('Por favor, introduce una dirección de wallet.');
+        return;
     }
 
-    /**
-     * Maneja la navegación por pestañas del dashboard.
-     */
+    const confirmacion = confirm(
+        `¿Estás seguro de que quieres guardar esta wallet?\n\n${walletAddress}\n\nEsta acción es importante y afectará dónde recibes tus pagos.`
+    );
+
+    if (confirmacion) {
+        fetch('/api/guardar-wallet', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ walletBTC: walletAddress }),
+            credentials: 'include'
+        })
+        .then(res => res.json())
+        .then(data => alert(data.message || 'Error al guardar.'));
+    } else {
+        alert('Acción cancelada.');
+    }
+}
+
     function activarPestanas() {
         const tabLinks = document.querySelectorAll('.tab-link');
         const tabPanes = document.querySelectorAll('.tab-pane');
@@ -170,142 +191,131 @@
         });
     }
 
-    /**
-     * Pide el catálogo de cursos al servidor y lo "dibuja" en la página.
-     */
     function cargarCursos() {
-        fetch('/api/cursos').then(response => response.json()).then(cursos => {
+        fetch('/api/cursos', { credentials: 'include' }).then(res => res.json()).then(cursos => {
             const container = document.querySelector('#cursos .grid');
             if (!container) return;
-            let html = '';
-            cursos.forEach(curso => {
-                html += `
-                    <a href="${curso.enlaceVideo}" target="_blank" style="text-decoration:none;color:inherit;">
-                        <div class="glass-card course-card">
-                            <div class="icon"><i class='bx ${curso.icono}'></i></div>
-                            <h3>${curso.titulo}</h3>
-                            <p>${curso.descripcion}</p>
-                        </div>
-                    </a>`;
-            });
-            container.innerHTML = html;
+            container.innerHTML = cursos.map(curso => `
+                <a href="${curso.enlace || curso.enlaceVideo}" target="_blank" class="glass-card course-card">
+                    <div class="icon"><i class='bx ${curso.icono}'></i></div>
+                    <h3>${curso.titulo}</h3>
+                    <p>${curso.descripcion}</p>
+                </a>`).join('');
         });
     }
 
-    /**
-     * Pide el catálogo de herramientas al servidor y lo "dibuja" en la página.
-     */
     function cargarHerramientas() {
-        fetch('/api/herramientas').then(response => response.json()).then(herramientas => {
+        fetch('/api/herramientas', { credentials: 'include' }).then(res => res.json()).then(herramientas => {
             const container = document.querySelector('#herramientas .grid');
             if (!container) return;
-            let html = '';
-            herramientas.forEach(h => {
-                html += `
-                    <a href="${h.enlaceDescarga}" target="_blank" style="text-decoration:none;color:inherit;">
-                        <div class="glass-card course-card">
-                            <div class="icon"><i class='bx ${h.icono}'></i></div>
-                            <h3>${h.titulo}</h3>
-                            <p>${h.descripcion}</p>
-                        </div>
-                    </a>`;
-            });
-            container.innerHTML = html;
+            container.innerHTML = herramientas.map(h => `
+                <a href="${h.enlace || h.enlaceDescarga}" target="_blank" class="glass-card course-card">
+                    <div class="icon"><i class='bx ${h.icono}'></i></div>
+                    <h3>${h.titulo}</h3>
+                    <p>${h.descripcion}</p>
+                </a>`).join('');
         });
     }
 
-    /**
-     * Pide al servidor la lista de referidos y la muestra en la tabla.
-     */
     function cargarRedEnLista() {
-        fetch('/api/mi-red').then(response => response.json()).then(listaDeReferidos => {
-            const tbody = document.getElementById('lista-referidos');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-            if (listaDeReferidos.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Aún no tienes referidos en tu red.</td></tr>';
-                return;
-            }
-            let referidosHtml = '';
-            listaDeReferidos.forEach(ref => {
-                referidosHtml += `
+        fetch('/api/mi-red', { credentials: 'include' })
+            .then(res => res.json())
+            .then(listaDeReferidos => {
+                const tbody = document.getElementById('lista-referidos');
+                if (!tbody) return;
+                
+                if (listaDeReferidos.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Aún no tienes referidos en tu red.</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = listaDeReferidos.map(ref => `
                     <tr>
                         <td>${ref.nombre}</td>
-                        <td class="level">Nivel ${ref.nivel}</td>
+                        <td>${ref.email}</td>
+                        <td>Nivel ${ref.nivel}</td>
+                        <td>${new Date(ref.fechaRegistro).toLocaleDateString()}</td>
                         <td><span class="status ${ref.estado === 'Activo' ? 'active' : 'inactive'}">${ref.estado}</span></td>
-                        <td>${ref.diasRestantes} días</td>
-                        <td>${ref.gananciaPorcentaje}%</td>
                     </tr>
-                `;
+                `).join('');
             });
-            tbody.innerHTML = referidosHtml;
-        });
     }
-    /**
-     * Evento principal que se dispara cuando la página está lista.
-     */
+    
+    function mostrarHistorialSuscripciones(historial) {
+        const tbody = document.getElementById('historial-suscripciones');
+        if (!tbody) return;
+        if (!historial || historial.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No has realizado pagos de suscripción.</td></tr>';
+            return;
+        }
+        tbody.innerHTML = historial.map(pago => `
+            <tr>
+                <td>${new Date(pago.fecha).toLocaleDateString()}</td>
+                <td>$${pago.monto.toFixed(2)}</td>
+                <td>${pago.txid}</td>
+            </tr>
+        `).join('');
+    }
+
+    function mostrarHistorialComisiones(historial) {
+        const tbody = document.getElementById('historial-comisiones-pagadas');
+        if (!tbody) return;
+        if (!historial || historial.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Aún no has recibido pagos de comisiones.</td></tr>';
+            return;
+        }
+        tbody.innerHTML = historial.map(pago => `
+            <tr>
+                <td>${new Date(pago.fecha).toLocaleDateString()}</td>
+                <td>$${pago.monto.toFixed(2)}</td>
+                <td>${pago.tipo || 'Regular'}</td>
+                <td>${pago.txid || 'N/A'}</td>
+            </tr>
+        `).join('');
+    }
+    
     document.addEventListener('DOMContentLoaded', () => {
         activarPestanas();
-        const saveWalletBtn = document.getElementById('save-wallet-btn');
-        if (saveWalletBtn) { saveWalletBtn.addEventListener('click', guardarWallet); }
+        document.getElementById('save-wallet-btn').addEventListener('click', guardarWallet);
 
-        fetch('/api/dashboard-data')
-            .then(response => {
-                if (!response.ok) {
-                    window.location.href = '/login.html';
-                    return Promise.reject('No autorizado');
-                }
-                return response.json();
-            })
+        fetch('/api/dashboard-data', { credentials: 'include' })
+            .then(res => res.json())
             .then(data => {
-                if (data.error) return;
+                if (data.error) {
+                    window.location.href = '/login.html';
+                    return;
+                }
 
                 document.getElementById('user-name').textContent = data.name;
-                document.getElementById('user-rank').textContent = `Rango: ${data.rango}`;
+                const rankElement = document.getElementById('user-rank');
+                const rankIconClass = getRankIcon(data.rango);
+                rankElement.innerHTML = `RANGO: <i class='bx ${rankIconClass}'></i> ${data.rango}`;
                 
-                const subStatus = document.getElementById('subscription-status');
-                subStatus.textContent = data.suscripcionActiva ? 'Activa' : 'Inactiva';
-                subStatus.className = `value ${data.suscripcionActiva ? 'active' : ''}`;
-                
+                document.getElementById('subscription-status').textContent = data.suscripcionActiva ? 'Activa' : 'Inactiva';
                 document.getElementById('days-remaining').textContent = `${data.diasRestantes} días`;
-                document.getElementById('month-earnings').textContent = `$${(data.gananciasMes || 0).toFixed(2)}`;
-                document.getElementById('direct-referrals').textContent = data.referidosDirectos;
-                document.getElementById('total-network').textContent = data.totalEnRed;
-                document.getElementById('referral-link').value = `http://localhost:3000/login.html?ref=${data.codigoReferido}`;
-                
-                const walletInput = document.getElementById('wallet-address');
-                if (walletInput) walletInput.value = data.walletBTC || '';
+                document.getElementById('month-earnings').textContent = `$${(data.comisionesPendientes || 0).toFixed(2)}`;
+                document.getElementById('direct-referrals').textContent = data.conteoReferidosDirectos;
+                document.getElementById('total-network').textContent = data.conteoReferidosTotales;
+                document.getElementById('referral-link').value = `${location.protocol}//${location.host}/login.html?ref=${data.codigoReferido}`;
+                document.getElementById('wallet-address').value = data.walletBTC || '';
 
-                const historialBody = document.getElementById('historial-comisiones');
-                if (historialBody && data.historialComisiones && data.historialComisiones.length > 0) {
-                    let historialHtml = '';
-                    data.historialComisiones.forEach(c => {
-                        historialHtml += `<tr><td>${new Date(c.fecha).toLocaleDateString()}</td><td>$${c.monto.toFixed(2)}</td><td>Nivel ${c.nivel}</td><td>${c.deUsuario}</td></tr>`;
-                    });
-                    historialBody.innerHTML = historialHtml;
-                }
+                mostrarHistorialSuscripciones(data.historialPagos);
+                mostrarHistorialComisiones(data.comisionesPagadas);
 
                 if (data.suscripcionActiva) {
-                    if(data.diasRestantes <= 0){
-                         document.getElementById('renewal-section').style.display = 'block';
-                    }
                     document.getElementById('cursos-content').style.display = 'block';
                     document.getElementById('cursos-paywall').style.display = 'none';
                     document.getElementById('herramientas-content').style.display = 'block';
                     document.getElementById('herramientas-paywall').style.display = 'none';
                     cargarCursos();
                     cargarHerramientas();
+                    cargarRedEnLista();
                 } else {
                     document.getElementById('cursos-content').style.display = 'none';
                     document.getElementById('cursos-paywall').style.display = 'block';
                     document.getElementById('herramientas-content').style.display = 'none';
                     document.getElementById('herramientas-paywall').style.display = 'block';
                 }
-                
-                cargarRedEnLista();
-            })
-            .catch(error => {
-                if (error !== 'No autorizado') console.error('Error al cargar datos:', error);
             });
     });
 </script>

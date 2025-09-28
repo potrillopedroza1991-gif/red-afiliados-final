@@ -1,74 +1,88 @@
-[   
-     {
-        "titulo": "Bloque 1: Fundamentos",
-        "descripcion": "Los cimientos para operar.",
-        "icono": "bxs-rocket",
-        "enlaceVideo": "https://ENLACE_A_TU_VIDEO_1"
-    },
-    {
-        "titulo": "Bloque 2: Figuras Chartistas",
-        "descripcion": "Domina los patrones clásicos.",
-        "icono": "bx-shape-triangle",
-        "enlaceVideo": "https://ENLACE_A_TU_VIDEO_2"
-    },
-    {
-        "titulo": "NUEVO CURSO: Gestión de Riesgo",
-        "descripcion": "Aprende a proteger tu capital.",
-        "icono": "bxs-shield-alt-2",
-        "enlaceVideo": "https://NUEVO_ENLACE_DE_TERABOX"
-    },
-     {
-        "titulo": "guitarra",
-        "descripcion": "musica.",
-        "icono": "bxs-shield-alt-2",
-        "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
-    },
-     {
-        "titulo": "guitarra",
-        "descripcion": "musica.",
-        "icono": "bxs-shield-alt-2",
-        "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
-    },
-     {
-        "titulo": "guitarra",
-        "descripcion": "musica.",
-        "icono": "bxs-shield-alt-2",
-        "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
-    },
-     {
-        "titulo": "guitarra",
-        "descripcion": "musica.",
-        "icono": "bxs-shield-alt-2",
-        "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
-    },
-     {
-        "titulo": "guitarra",
-        "descripcion": "musica.",
-        "icono": "bxs-shield-alt-2",
-        "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
-    },
-     {
-        "titulo": "guitarra",
-        "descripcion": "musica.",
-        "icono": "bxs-shield-alt-2",
-        "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
-    },
-     {
-        "titulo": "guitarra",
-        "descripcion": "musica.",
-        "icono": "bxs-shield-alt-2",
-        "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
-    },
-     {
-        "titulo": "guitarra",
-        "descripcion": "musica.",
-         "icono": "bxs-videos",
-        "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
-    },
-     {
-        "titulo": "guitarra",
-        "descripcion": "musica.",
-         "icono": "bxs-movie-play",
-        "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
-    }
+[
+  {
+    "titulo": "Bloque 1: Fundamentos",
+    "descripcion": "Los cimientos para operar.",
+    "icono": "bxs-rocket",
+    "enlaceVideo": "https://ENLACE_A_TU_VIDEO_1"
+  },
+  {
+    "titulo": "Bloque 2: Figuras Chartistas",
+    "descripcion": "Domina los patrones clásicos.",
+    "icono": "bx-shape-triangle",
+    "enlaceVideo": "https://ENLACE_A_TU_VIDEO_2"
+  },
+  {
+    "titulo": "NUEVO CURSO: Gestión de Riesgo",
+    "descripcion": "Aprende a proteger tu capital.",
+    "icono": "bxs-shield-alt-2",
+    "enlaceVideo": "https://NUEVO_ENLACE_DE_TERABOX"
+  },
+  {
+    "titulo": "guitarra",
+    "descripcion": "musica.",
+    "icono": "bxs-shield-alt-2",
+    "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
+  },
+  {
+    "titulo": "guitarra",
+    "descripcion": "musica.",
+    "icono": "bxs-shield-alt-2",
+    "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
+  },
+  {
+    "titulo": "guitarra",
+    "descripcion": "musica.",
+    "icono": "bxs-shield-alt-2",
+    "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
+  },
+  {
+    "titulo": "guitarra",
+    "descripcion": "musica.",
+    "icono": "bxs-shield-alt-2",
+    "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
+  },
+  {
+    "titulo": "guitarra",
+    "descripcion": "musica.",
+    "icono": "bxs-shield-alt-2",
+    "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
+  },
+  {
+    "titulo": "guitarra",
+    "descripcion": "musica.",
+    "icono": "bxs-shield-alt-2",
+    "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
+  },
+  {
+    "titulo": "guitarra",
+    "descripcion": "musica.",
+    "icono": "bxs-shield-alt-2",
+    "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
+  },
+  {
+    "titulo": "guitarra",
+    "descripcion": "musica.",
+    "icono": "bxs-videos",
+    "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
+  },
+  {
+    "titulo": "guitarra",
+    "descripcion": "musica.",
+    "icono": "bxs-movie-play",
+    "enlaceVideo": "https://www.youtube.com/watch?v=tdhWcVpFioI&list=RDtdhWcVpFioI&start_radio=1"
+  },
+  {
+    "id": "curso_1758001238916",
+    "titulo": "Curso de Prueba",
+    "descripcion": "Este es un test desde la consola",
+    "icono": "bxs-flask",
+    "enlace": "https://ejemplo.com"
+  },
+  {
+    "id": "curso_1758001316837",
+    "titulo": "Curso de Prueba",
+    "descripcion": "Este es un test desde la consola",
+    "icono": "bxs-flask",
+    "enlace": "https://ejemplo.com"
+  }
 ]

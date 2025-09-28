@@ -3,172 +3,130 @@ const fs = require('fs');
 const path = require('path');
 const router = express.Router();
 
-const DB_PATH = path.join(__dirname, '..', 'usuarios.json');
+const PERFILES_DB_PATH = path.join(__dirname, '..', 'perfiles.json');
 const CURSOS_DB_PATH = path.join(__dirname, '..', 'cursos.json');
 const HERRAMIENTAS_DB_PATH = path.join(__dirname, '..', 'herramientas.json');
+const USUARIOS_DB_PATH = path.join(__dirname, '..', 'usuarios.json');
 
-// --- FUNCIONES DE AYUDA ---
+function leerPerfiles() {
+    try {
+        if (fs.existsSync(PERFILES_DB_PATH)) return JSON.parse(fs.readFileSync(PERFILES_DB_PATH, 'utf8'));
+    } catch (e) { console.error("Error al leer perfiles.json:", e); return []; }
+}
 function leerUsuarios() {
     try {
-        if (fs.existsSync(DB_PATH)) {
-            const data = fs.readFileSync(DB_PATH, 'utf8');
-            return data ? JSON.parse(data) : [];
-        }
-    } catch (error) { console.error("Error al leer usuarios.json:", error); }
+        if (fs.existsSync(USUARIOS_DB_PATH)) return JSON.parse(fs.readFileSync(USUARIOS_DB_PATH, 'utf8'));
+    } catch (e) { console.error("Error al leer usuarios.json:", e); }
     return [];
 }
-function escribirUsuarios(data) {
+function escribirPerfiles(data) {
     try {
-        fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
-    } catch (error) { console.error("Error al escribir en usuarios.json:", error); }
-}
-function leerArchivoJSON(ruta) {
-    try {
-        if (fs.existsSync(ruta)) {
-            const data = fs.readFileSync(ruta, 'utf8');
-            return data ? JSON.parse(data) : [];
-        }
-    } catch (error) { console.error(`Error al leer ${ruta}:`, error); }
-    return [];
-}
-function calcularRango(totalReferidos) {
-    if (totalReferidos >= 1000) return "CEO Máximo";
-    if (totalReferidos >= 500) return "Director Ejecutivo Global";
-    if (totalReferidos >= 100) return "Gerente";
-    if (totalReferidos >= 30) return "Arquitecto de Redes";
-    if (totalReferidos >= 10) return "Estratega";
-    return "Miembro";
+        fs.writeFileSync(PERFILES_DB_PATH, JSON.stringify(data, null, 2));
+    } catch (e) { console.error("Error al escribir en perfiles.json:", e); }
 }
 
-// --- API: OBTENER LOS DATOS PARA EL DASHBOARD DEL USUARIO LOGUEADO ---
-router.get('/api/dashboard-data', (req, res) => {
-    if (!req.session || !req.session.usuarioEmail) {
-        return res.status(401).json({ error: 'No autorizado.' });
+function verificarAutenticacion(req, res, next) {
+    if (req.session && req.session.idUnico) {
+        return next();
     }
-    try {
-        const email = req.session.usuarioEmail;
-        const usuarios = leerUsuarios();
-        const usuarioActual = usuarios.find(user => user.email === email);
-        if (!usuarioActual) {
-            return res.status(404).json({ error: 'Usuario no encontrado.' });
-        }
-        let diasRestantes = 0;
-        if (usuarioActual.suscripcionActiva && usuarioActual.fechaVencimientoSuscripcion) {
-            const diff = new Date(usuarioActual.fechaVencimientoSuscripcion) - new Date();
-            diasRestantes = diff > 0 ? Math.ceil(diff / (1000 * 3600 * 24)) : 0;
-        }
-        const rango = calcularRango(usuarioActual.conteoReferidosTotales || 0);
-        const dashboardData = {
-            name: usuarioActual.name,
-            rango: rango,
-            suscripcionActiva: usuarioActual.suscripcionActiva,
-            diasRestantes: diasRestantes,
-            gananciasMes: usuarioActual.comisionesPendientes || 0,
-            referidosDirectos: usuarioActual.conteoReferidosDirectos,
-            totalEnRed: usuarioActual.conteoReferidosTotales,
-            codigoReferido: usuarioActual.codigoReferido,
-            walletBTC: usuarioActual.walletBTC,
-            historialComisiones: usuarioActual.historialComisiones || []
-        };
-        res.json(dashboardData);
-    } catch (error) {
-        res.status(500).json({ error: "Error al leer la base de datos." });
+    res.status(401).json({ error: 'No autorizado' });
+}
+
+function calcularRango(totalReferidos) {
+    if (totalReferidos >= 2000) return "CEO Máximo";
+    if (totalReferidos >= 1000) return "CEO";
+    if (totalReferidos >= 500) return "Presidente";
+    if (totalReferidos >= 250) return "Director";
+    if (totalReferidos >= 100) return "Gerente";
+    if (totalReferidos >= 50) return "Supervisor";
+    if (totalReferidos >= 30) return "Coordinador";
+    if (totalReferidos >= 15) return "Asistente";
+    if (totalReferidos >= 1) return "Líder";
+    return "Usuario";
+}
+
+router.get('/api/dashboard-data', verificarAutenticacion, (req, res) => {
+    const perfiles = leerPerfiles();
+    const perfilUsuario = perfiles.find(p => p.idUnico === req.session.idUnico);
+    if (!perfilUsuario) return res.status(404).json({ error: 'Perfil no encontrado' });
+
+    let diasRestantes = 0;
+    if (perfilUsuario.suscripcionActiva && perfilUsuario.fechaVencimientoSuscripcion) {
+        const hoy = new Date();
+        const fechaVencimiento = new Date(perfilUsuario.fechaVencimientoSuscripcion);
+        diasRestantes = Math.max(0, Math.ceil((fechaVencimiento - hoy) / (1000 * 60 * 60 * 24)));
+    }
+    
+    const rangoDelUsuario = calcularRango(perfilUsuario.conteoReferidosTotales || 0);
+
+    const datosParaFrontend = {
+        name: perfilUsuario.name,
+        rango: rangoDelUsuario,
+        suscripcionActiva: perfilUsuario.suscripcionActiva,
+        diasRestantes: diasRestantes,
+        comisionesPendientes: perfilUsuario.comisionesPendientes || 0,
+        conteoReferidosDirectos: perfilUsuario.conteoReferidosDirectos || 0,
+        conteoReferidosTotales: perfilUsuario.conteoReferidosTotales || 0,
+        codigoReferido: perfilUsuario.codigoReferido,
+        walletBTC: perfilUsuario.walletBTC || '',
+        historialPagos: perfilUsuario.historialPagos || [],
+        comisionesPagadas: perfilUsuario.comisionesPagadas || []
+    };
+    res.json(datosParaFrontend);
+});
+
+router.post('/api/guardar-wallet', verificarAutenticacion, (req, res) => {
+    const { walletBTC } = req.body;
+    let perfiles = leerPerfiles();
+    const perfilIndex = perfiles.findIndex(p => p.idUnico === req.session.idUnico);
+    if (perfilIndex !== -1) {
+        perfiles[perfilIndex].walletBTC = walletBTC;
+        escribirPerfiles(perfiles);
+        res.json({ message: '¡Dirección de wallet guardada con éxito!' });
+    } else {
+        res.status(404).json({ message: 'Error: Usuario no encontrado.' });
     }
 });
-// API: OBTENER LA LISTA DE REFERIDOS
-router.get('/api/mi-red', (req, res) => {
-    if (!req.session || !req.session.usuarioEmail) {
-        return res.status(401).json({ error: 'No autorizado.' });
-    }
 
+router.get('/api/mi-red', verificarAutenticacion, (req, res) => {
     try {
-        const email = req.session.usuarioEmail;
+        const perfiles = leerPerfiles();
         const usuarios = leerUsuarios();
-        const usuarioActual = usuarios.find(user => user.email === email);
+        const emailMap = new Map(usuarios.map(u => [u.idUnico, u.email]));
+        const usuarioActual = perfiles.find(p => p.idUnico === req.session.idUnico);
+        if (!usuarioActual) return res.status(404).json([]);
 
-        if (!usuarioActual) {
-            return res.status(404).json({ error: 'Usuario no encontrado.' });
-        }
-
-        const comisionesPorNivel = [25, 15, 5, 3, 2]; // Porcentajes
-        let listaDeReferidos = [];
-
-        // Función recursiva para encontrar y aplanar la red de referidos
-        function encontrarReferidos(idPadre, nivelActual, nivelMaximo) {
-            if (nivelActual > nivelMaximo) return;
-            
-            const referidosEnEsteNivel = usuarios.filter(user => user.referidoPor === idPadre);
-
-            referidosEnEsteNivel.forEach(referido => {
-                let diasRestantes = 0;
-                if (referido.suscripcionActiva && referido.fechaVencimientoSuscripcion) {
-                    const diff = new Date(referido.fechaVencimientoSuscripcion) - new Date();
-                    diasRestantes = diff > 0 ? Math.ceil(diff / (1000 * 3600 * 24)) : 0;
-                }
-
-                listaDeReferidos.push({
-                    nombre: referido.name,
-                    nivel: nivelActual,
-                    estado: referido.suscripcionActiva ? 'Activo' : 'Inactivo',
-                    diasRestantes: diasRestantes,
-                    gananciaPorcentaje: comisionesPorNivel[nivelActual - 1]
+        let redAplanada = [];
+        function encontrarReferidos(idPadre, nivel) {
+            if (nivel > 5) return;
+            const referidosDirectos = perfiles.filter(p => p.referidoPor === idPadre);
+            referidosDirectos.forEach(ref => {
+                redAplanada.push({
+                    nombre: ref.name,
+                    email: emailMap.get(ref.idUnico) || 'N/A',
+                    fechaRegistro: ref.fechaRegistro,
+                    nivel: nivel,
+                    estado: ref.suscripcionActiva ? 'Activo' : 'Inactivo'
                 });
-                
-                // Llamada recursiva para buscar en el siguiente nivel
-                encontrarReferidos(referido.idUnico, nivelActual + 1, nivelMaximo);
+                encontrarReferidos(ref.idUnico, nivel + 1);
             });
         }
-
-        // Iniciamos la búsqueda desde el usuario actual (nivel 1)
-        encontrarReferidos(usuarioActual.idUnico, 1, 5);
-        res.json(listaDeReferidos);
-
-    } catch (error) {
+        encontrarReferidos(usuarioActual.idUnico, 1);
+        res.json(redAplanada);
+    } catch(error) {
         console.error("Error en /api/mi-red:", error);
-        res.status(500).json({ error: "Error al construir la lista de referidos." });
+        res.status(500).json([]);
     }
 });
 
-// API PARA OBTENER LOS CURSOS
-router.get('/api/cursos', (req, res) => {
-    try {
-        const catalogoDeCursos = leerArchivoJSON(CURSOS_DB_PATH);
-        res.json(catalogoDeCursos);
-    } catch (error) {
-        res.status(500).json({ error: "No se pudo cargar el catálogo de cursos." });
-    }
+router.get('/api/cursos', verificarAutenticacion, (req, res) => {
+    const cursos = JSON.parse(fs.readFileSync(CURSOS_DB_PATH, 'utf8'));
+    res.json(cursos);
 });
 
-// API PARA OBTENER LAS HERRAMIENTAS
-router.get('/api/herramientas', (req, res) => {
-    try {
-        const catalogoDeHerramientas = leerArchivoJSON(HERRAMIENTAS_DB_PATH);
-        res.json(catalogoDeHerramientas);
-    } catch (error) {
-        res.status(500).json({ error: "No se pudo cargar el catálogo de herramientas." });
-    }
-});
-
-// API: GUARDAR LA WALLET DEL USUARIO
-router.post('/api/guardar-wallet', (req, res) => {
-    if (!req.session || !req.session.usuarioEmail) {
-        return res.status(401).json({ error: 'No autorizado.' });
-    }
-    try {
-        const email = req.session.usuarioEmail;
-        let usuarios = leerUsuarios();
-        const userIndex = usuarios.findIndex(user => user.email === email);
-        if (userIndex !== -1) {
-            usuarios[userIndex].walletBTC = req.body.walletBTC;
-            escribirUsuarios(usuarios);
-            res.json({ success: true, message: '¡Dirección de pago guardada con éxito!' });
-        } else {
-            res.status(404).json({ success: false, message: 'Usuario no encontrado.' });
-        }
-    } catch (error) {
-        console.error("Error en /api/guardar-wallet:", error);
-        res.status(500).json({ success: false, error: "Error en el servidor." });
-    }
+router.get('/api/herramientas', verificarAutenticacion, (req, res) => {
+    const herramientas = JSON.parse(fs.readFileSync(HERRAMIENTAS_DB_PATH, 'utf8'));
+    res.json(herramientas);
 });
 
 module.exports = router;

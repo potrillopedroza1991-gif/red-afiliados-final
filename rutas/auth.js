@@ -1,162 +1,225 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const router = express.Router();
-const bcrypt = require('bcrypt');
 
-const DB_PATH = path.join(__dirname, '..', 'usuarios.json');
+const USUARIOS_DB_PATH = path.join(__dirname, '..', 'usuarios.json');
+const PERFILES_DB_PATH = path.join(__dirname, '..', 'perfiles.json');
 
-/**
- * Función de ayuda para leer la base de datos de forma segura.
- */
 function leerUsuarios() {
     try {
-        if (fs.existsSync(DB_PATH)) {
-            const data = fs.readFileSync(DB_PATH, 'utf8');
-            return data ? JSON.parse(data) : [];
+        if (fs.existsSync(USUARIOS_DB_PATH)) {
+            return JSON.parse(fs.readFileSync(USUARIOS_DB_PATH, 'utf8'));
         }
-    } catch (error) {
-        console.error("Error al leer usuarios.json:", error);
+    } catch (e) {
+        console.error("Error al leer usuarios.json:", e);
     }
     return [];
 }
 
-/**
- * Función de ayuda para escribir en la base de datos de forma segura.
- */
 function escribirUsuarios(data) {
     try {
-        fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
-    } catch (error) {
-        console.error("Error al escribir en usuarios.json:", error);
+        fs.writeFileSync(USUARIOS_DB_PATH, JSON.stringify(data, null, 2));
+    } catch (e) {
+        console.error("Error al escribir en usuarios.json:", e);
     }
 }
 
-// --- RUTA PARA REGISTRAR UN USUARIO ---
+function leerPerfiles() {
+    try {
+        if (fs.existsSync(PERFILES_DB_PATH)) {
+            return JSON.parse(fs.readFileSync(PERFILES_DB_PATH, 'utf8'));
+        }
+    } catch (e) {
+        console.error("Error al leer perfiles.json:", e);
+    }
+    return [];
+}
+
+function escribirPerfiles(data) {
+    try {
+        fs.writeFileSync(PERFILES_DB_PATH, JSON.stringify(data, null, 2));
+    } catch (e) {
+        console.error("Error al escribir en perfiles.json:", e);
+    }
+}
+
+// --- RUTA DE REGISTRO ---
 router.post('/procesar-registro', async (req, res) => {
     try {
+        const { name, email, password, confirmPassword, fechaNacimiento, pais, telefono, codigoReferido } = req.body;
         const usuarios = leerUsuarios();
-        if (usuarios.some(user => user.email === req.body.email)) {
-            return res.status(400).send('<h1>Error: El email ya está registrado.</h1><a href="/login.html">Volver</a>');
-        }
-        
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-        
-        const nombreBase = req.body.name.split(' ')[0].toUpperCase();
-        const codigoReferidoRecibido = req.body.codigoReferido;
-        let idDelReferente = null;
 
-        if (codigoReferidoRecibido) {
-            const referente = usuarios.find(user => user.codigoReferido === codigoReferidoRecibido);
-            if (referente) idDelReferente = referente.idUnico;
+        if (usuarios.find(u => u.email === email)) {
+            return res.status(400).send('<h1>Error: El email ya está registrado. <a href="/login.html">Volver</a></h1>');
         }
+        if (password !== confirmPassword) {
+            return res.status(400).send('<h1>Error: Las contraseñas no coinciden. <a href="/login.html">Volver</a></h1>');
+        }
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const idUnico = `usr_${Date.now()}`;
         
-        const nuevoUsuario = {
-            idUnico: `usr_${Date.now()}`,
-            name: req.body.name,
-            email: req.body.email,
-            password: hashedPassword,
-            fechaNacimiento: req.body.fechaNacimiento,
-            rol: 'usuario',
-            tipoUsuario: 'afiliado',
-            suscripcionActiva: false,
-            estatusPago: 'pendiente_pago',
+        const nuevoUsuario = { idUnico, email, password: hashedPassword };
+        usuarios.push(nuevoUsuario);
+        escribirUsuarios(usuarios);
+
+        const perfiles = leerPerfiles();
+        let patrocinador = null;
+        if (codigoReferido) {
+            patrocinador = perfiles.find(p => p.codigoReferido === codigoReferido);
+        }
+
+        const nuevoPerfil = {
+            idUnico, name, fechaNacimiento, pais, telefono,
+            rol: 'usuario', tipoUsuario: 'afiliado',
+            suscripcionActiva: false, estatusPago: 'pendiente_pago',
             fechaRegistro: new Date().toISOString(),
             fechaVencimientoSuscripcion: null,
             walletBTC: null,
-            referidoPor: idDelReferente,
-            codigoReferido: `${nombreBase}${Math.floor(100 + Math.random() * 900)}`,
-            conteoReferidosDirectos: 0,
-            conteoReferidosTotales: 0,
-            bonosDesbloqueados: 0,
-            comisionesPendientes: 0,
+            referidoPor: patrocinador ? patrocinador.idUnico : null,
+            codigoReferido: `${name.split(' ')[0].toUpperCase()}${crypto.randomInt(100, 999)}`,
+            conteoReferidosDirectos: 0, conteoReferidosTotales: 0,
+            bonosDesbloqueados: 0, comisionesPendientes: 0,
             historialPagos: [],
-            historialComisiones: []
+            comisionesPagadas: []
         };
-
-        usuarios.push(nuevoUsuario);
-        escribirUsuarios(usuarios);
+        perfiles.push(nuevoPerfil);
+        escribirPerfiles(perfiles);
         
-        res.redirect(`/pago.html?email=${encodeURIComponent(nuevoUsuario.email)}`);
+        req.session.idUnico = idUnico;
+        res.redirect('/pago.html');
+
     } catch (error) {
-        console.error("Error crítico en el registro:", error);
-        res.status(500).send("Error interno al procesar el registro.");
+        console.error("Error en el registro:", error);
+        res.status(500).send('<h1>Error interno del servidor.</h1>');
     }
 });
+// --- RUTA DE LOGIN ---
+router.post('/procesar-login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const usuarios = leerUsuarios();
+        const usuario = usuarios.find(u => u.email === email);
+
+        if (usuario && await bcrypt.compare(password, usuario.password)) {
+            // Contraseña correcta, ahora verificamos el perfil
+            const perfiles = leerPerfiles();
+            const perfil = perfiles.find(p => p.idUnico === usuario.idUnico);
+
+            // Verificamos que el perfil exista y que la suscripción esté activa
+            if (perfil && perfil.suscripcionActiva) {
+                req.session.idUnico = usuario.idUnico;
+                res.redirect('/dashboard.html');
+            } else {
+                // Si no está activo, enviamos un mensaje de error
+                res.status(403).send('<h1>Acceso denegado. Tu cuenta no ha sido aprobada o está inactiva. <a href="/login.html">Volver</a></h1>');
+            }
+            
+        } else {
+            res.status(401).send('<h1>Email o contraseña incorrectos. <a href="/login.html">Volver</a></h1>');
+        }
+    } catch (error) {
+        console.error("Error en el login:", error);
+        res.status(500).send('<h1>Error interno del servidor.</h1>');
+    }
+});
+
 // --- RUTA PARA CONFIRMAR EL PAGO ---
 router.post('/confirmar-pago', (req, res) => {
     try {
-        const { email, txid } = req.body;
-        if (!txid || txid.trim() === '') {
-            return res.status(400).send('<h1>Error: El ID de transacción no puede estar vacío.</h1>');
+        const { txid } = req.body;
+        const idUnico = req.session.idUnico; // Obtenemos el ID del usuario de la sesión
+
+        if (!idUnico) {
+            return res.status(401).send('<h1>Error: Sesión no encontrada. Por favor, regístrate de nuevo.</h1>');
         }
-        
-        const usuarios = leerUsuarios();
-        // Filtro Anti-Reciclaje de IDs
-        for (const usuario of usuarios) {
-            if (usuario.txid === txid || (usuario.historialPagos && usuario.historialPagos.some(pago => pago.txid === txid))) {
-                return res.status(400).send('<h1>Error: Este ID de transacción ya ha sido registrado.</h1>');
-            }
-        }
-        const userIndex = usuarios.findIndex(user => user.email === email);
-        if (userIndex !== -1) {
-            usuarios[userIndex].estatusPago = 'pendiente_verificacion';
-            usuarios[userIndex].txid = txid; // ID de transacción temporal para el admin
-            usuarios[userIndex].fechaReportePago = new Date().toISOString();
-            escribirUsuarios(usuarios);
-            res.send('<h1>¡Gracias! Hemos recibido tu confirmación.</h1><p>Tu cuenta será activada por un administrador.</p>');
+
+        let perfiles = leerPerfiles();
+        const perfilIndex = perfiles.findIndex(p => p.idUnico === idUnico);
+
+        if (perfilIndex !== -1) {
+            perfiles[perfilIndex].txid = txid;
+            perfiles[perfilIndex].estatusPago = 'pendiente_verificacion';
+            perfiles[perfilIndex].fechaReportePago = new Date().toISOString();
+            escribirPerfiles(perfiles);
+            
+            res.send('<h1>¡Gracias! Tu pago está siendo verificado. Serás notificado por el administrador cuando tu cuenta sea aprobada.</h1>');
         } else {
-            res.status(400).send('<h1>Error: No se pudo encontrar tu usuario.</h1>');
+            res.status(404).send('<h1>Perfil de usuario no encontrado.</h1>');
         }
     } catch (error) {
-        console.error("Error crítico al confirmar pago:", error);
-        res.status(500).send("Error en el servidor al confirmar pago.");
+        console.error("Error al confirmar pago:", error);
+        res.status(500).send('<h1>Error interno del servidor.</h1>');
+    }
+});
+// --- RUTA PARA SOLICITAR UN CÓDIGO DE RESETEO (VERSIÓN FINAL) ---
+router.post('/api/solicitar-reset', (req, res) => {
+    try {
+        const { email } = req.body;
+        let usuarios = leerUsuarios();
+        const usuarioIndex = usuarios.findIndex(u => u.email === email);
+
+        if (usuarioIndex !== -1) {
+            // Generamos un código numérico de 6 dígitos
+            const resetCode = crypto.randomInt(100000, 999999).toString();
+            // El código expira en 2 HORAS
+            const expiration = Date.now() + 2 * 60 * 60 * 1000; 
+
+            // Guardamos el código y su expiración en el perfil del usuario
+            usuarios[usuarioIndex].resetPasswordCode = resetCode;
+            usuarios[usuarioIndex].resetPasswordExpires = expiration;
+            usuarios[usuarioIndex].resetCodeHandled = false; // Marcamos como no atendido
+            
+            escribirUsuarios(usuarios);
+            console.log(`Código de reseteo para ${email}: ${resetCode}`);
+        }
+        
+        // Enviamos siempre una respuesta genérica por seguridad
+        res.json({ success: true, message: 'Si tu correo está registrado, un administrador se pondrá en contacto contigo.' });
+
+    } catch (error) {
+        console.error("Error al solicitar reseteo:", error);
+        res.status(500).json({ success: false, message: 'Error en el servidor.' });
     }
 });
 
-// --- RUTA PARA LOGIN DE USUARIOS (VERSIÓN SEGURA) ---
-router.post('/procesar-login', async (req, res) => { // <-- AHORA ES ASÍNCRONA
+// --- RUTA PARA REALIZAR EL RESETEO CON EL CÓDIGO ---
+router.post('/api/realizar-reset', async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, resetCode, newPassword } = req.body;
         let usuarios = leerUsuarios();
-        const usuarioEncontrado = usuarios.find(user => user.email === email);
+        const usuarioIndex = usuarios.findIndex(u => u.email === email);
 
-        // Si no se encuentra el usuario, o si no tiene contraseña (puede pasar con datos viejos)
-        if (!usuarioEncontrado || !usuarioEncontrado.password) {
-            return res.status(401).send('<h1>Error: Email o contraseña incorrectos.</h1>');
+        if (usuarioIndex === -1) {
+            return res.status(400).json({ success: false, message: 'El código o el email no son válidos.' });
         }
         
-        // --- ZONA DE SEGURIDAD ---
-        const contrasenaCoincide = await bcrypt.compare(password, usuarioEncontrado.password);
-        // --- FIN DE ZONA DE SEGURIDAD ---
+        const usuario = usuarios[usuarioIndex];
 
-        if (contrasenaCoincide) {
-            const userIndex = usuarios.findIndex(user => user.email === email); // Necesitamos el index para actualizar
-            const esAprobado = ['aprobado', 'vencido', 'pausado'].includes(usuarioEncontrado.estatusPago);
-            if (esAprobado) {
-                if (!usuarioEncontrado.suscripcionActiva) {
-                    return res.redirect(`/pago.html?email=${encodeURIComponent(email)}&mensaje=pausado`);
-                }
-                const hoy = new Date();
-                const fechaVencimiento = new Date(usuarioEncontrado.fechaVencimientoSuscripcion);
-                if (hoy > fechaVencimiento) {
-                    usuarios[userIndex].suscripcionActiva = false;
-                    usuarios[userIndex].estatusPago = 'vencido';
-                    escribirUsuarios(usuarios);
-                    return res.redirect(`/pago.html?email=${encodeURIComponent(email)}&mensaje=vencido`);
-                }
-                req.session.usuarioEmail = usuarioEncontrado.email;
-                return res.redirect('/dashboard.html');
-            } else {
-                return res.redirect(`/pago.html?email=${encodeURIComponent(email)}`);
-            }
-        } else {
-            res.status(401).send('<h1>Error: Email o contraseña incorrectos.</h1>');
+        // Verificamos que el código sea correcto y no haya expirado
+        if (usuario.resetPasswordCode !== resetCode || Date.now() > usuario.resetPasswordExpires) {
+            return res.status(400).json({ success: false, message: 'El código o el email no son válidos.' });
         }
+
+        // Si todo es correcto, actualizamos la contraseña
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+        
+        usuarios[usuarioIndex].password = hashedPassword;
+        // Eliminamos el código para que no se pueda volver a usar
+        delete usuarios[usuarioIndex].resetPasswordCode;
+        delete usuarios[usuarioIndex].resetPasswordExpires;
+
+        escribirUsuarios(usuarios);
+        res.json({ success: true, message: '¡Contraseña actualizada con éxito!' });
+
     } catch (error) {
-        console.error("Error crítico durante el login:", error);
-        res.status(500).send("Error en el servidor durante el login.");
+        console.error("Error al realizar reseteo:", error);
+        res.status(500).json({ success: false, message: 'Error en el servidor.' });
     }
 });
 

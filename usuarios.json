@@ -1,130 +1,77 @@
 [
   {
-    "idUnico": "usr_1755138722808",
-    "name": "1",
+    "idUnico": "usr_1758083870130",
     "email": "1@gmail.com",
-    "password": "$2b$10$QDMj7U.zoOJ2wZBPOstve.KyR0/cPaWmMWWWihx7D00jDUqCLNk5S",
-    "fechaNacimiento": "1191-10-20",
-    "rol": "usuario",
-    "tipoUsuario": "afiliado",
-    "suscripcionActiva": true,
-    "estatusPago": "aprobado",
-    "fechaRegistro": "2025-08-14T02:32:02.808Z",
-    "fechaVencimientoSuscripcion": "2025-09-13T02:32:19.782Z",
-    "walletBTC": null,
-    "referidoPor": null,
-    "codigoReferido": "1162",
-    "conteoReferidosDirectos": 0,
-    "conteoReferidosTotales": 0,
-    "bonosDesbloqueados": 0,
-    "comisionesPendientes": 0,
-    "historialPagos": [
-      {
-        "fecha": "2025-08-14T02:32:19.782Z",
-        "txid": "0000000000",
-        "monto": 50
-      }
-    ],
-    "historialComisiones": [],
-    "notasAdmin": "",
-    "txid": null,
-    "fechaReportePago": "2025-08-14T02:32:10.319Z",
-    "fechaAprobacionPago": "2025-08-14T02:32:19.782Z"
+    "password": "$2b$10$FLexXs8jhUf7mpWNaXvaSOllslfpDyC5NrY1yWO2oJIn.3elxM9Dm",
+    "resetCodeHandled": true
   },
   {
-    "idUnico": "usr_1755138972829",
-    "name": "2",
+    "idUnico": "usr_1758084024100",
     "email": "2@gmail.com",
-    "password": "$2b$10$Bkd7K1m1qE8laGUJacztZO9jidehftvLmJibd4Vq9tesIxZ410bWu",
-    "fechaNacimiento": "1991-10-20",
-    "rol": "usuario",
-    "tipoUsuario": "afiliado",
-    "suscripcionActiva": true,
-    "estatusPago": "aprobado",
-    "fechaRegistro": "2025-08-14T02:36:12.829Z",
-    "fechaVencimientoSuscripcion": "2025-09-13T02:36:34.116Z",
-    "walletBTC": null,
-    "referidoPor": null,
-    "codigoReferido": "2748",
-    "conteoReferidosDirectos": 0,
-    "conteoReferidosTotales": 0,
-    "bonosDesbloqueados": 0,
-    "comisionesPendientes": 0,
-    "historialPagos": [
-      {
-        "fecha": "2025-08-14T02:36:34.115Z",
-        "txid": "1111111111",
-        "monto": 50
-      }
-    ],
-    "historialComisiones": [],
-    "notasAdmin": "",
-    "txid": null,
-    "fechaReportePago": "2025-08-14T02:36:20.203Z",
-    "fechaAprobacionPago": "2025-08-14T02:36:34.116Z"
+    "password": "$2b$10$8mtjOSyKPBz4uz2d4fFnO./VPV2232f7ZOzJrzXM81qwrd8rbm/Wu",
+    "resetPasswordCode": "155210",
+    "resetPasswordExpires": 1758693568350,
+    "resetCodeHandled": true
   },
   {
-    "idUnico": "usr_1755139079210",
-    "name": "3",
+    "idUnico": "usr_1758346777111",
     "email": "3@gmail.com",
-    "password": "$2b$10$M6gHMBnuSXl7Nrqc3LWlqeeJAFS9bcalv6B52pJ1C/h/srLl4nJkO",
-    "fechaNacimiento": "1991-10-20",
-    "rol": "usuario",
-    "tipoUsuario": "afiliado",
-    "suscripcionActiva": true,
-    "estatusPago": "aprobado",
-    "fechaRegistro": "2025-08-14T02:37:59.210Z",
-    "fechaVencimientoSuscripcion": "2025-09-13T02:38:15.979Z",
-    "walletBTC": null,
-    "referidoPor": null,
-    "codigoReferido": "3622",
-    "conteoReferidosDirectos": 0,
-    "conteoReferidosTotales": 0,
-    "bonosDesbloqueados": 0,
-    "comisionesPendientes": 0,
-    "historialPagos": [
-      {
-        "fecha": "2025-08-14T02:38:15.979Z",
-        "txid": "2222222222",
-        "monto": 50
-      }
-    ],
-    "historialComisiones": [],
-    "notasAdmin": "",
-    "txid": null,
-    "fechaReportePago": "2025-08-14T02:38:05.748Z",
-    "fechaAprobacionPago": "2025-08-14T02:38:15.979Z"
+    "password": "$2b$10$hfMSK8o5/ySLNn5n3zyDgedty9amcKJ3nPZjI0LGyUGoEjRpv6.yC"
   },
   {
-    "idUnico": "usr_1755228929469",
-    "name": "p1",
-    "email": "p1@gmail.com",
-    "password": "$2b$10$6x7.ne.03PEU3xQOZqnen.cTcyMqbTUpDnRDswqcVtpTnppYITUB6",
-    "fechaNacimiento": "1991-10-20",
-    "rol": "usuario",
-    "tipoUsuario": "afiliado",
-    "suscripcionActiva": true,
-    "estatusPago": "aprobado",
-    "fechaRegistro": "2025-08-15T03:35:29.469Z",
-    "fechaVencimientoSuscripcion": "2025-09-14T03:35:44.869Z",
-    "walletBTC": null,
-    "referidoPor": null,
-    "codigoReferido": "P1332",
-    "conteoReferidosDirectos": 0,
-    "conteoReferidosTotales": 0,
-    "bonosDesbloqueados": 0,
-    "comisionesPendientes": 0,
-    "historialPagos": [
-      {
-        "fecha": "2025-08-15T03:35:44.869Z",
-        "txid": "123123",
-        "monto": 50
-      }
-    ],
-    "historialComisiones": [],
-    "notasAdmin": "",
-    "txid": null,
-    "fechaReportePago": "2025-08-15T03:35:36.977Z",
-    "fechaAprobacionPago": "2025-08-15T03:35:44.869Z"
+    "idUnico": "usr_1758346937014",
+    "email": "4@gmail.com",
+    "password": "$2b$10$agQkO7XQeABZghNbQnQAzugPEBaNwakdOQTLUKhWvNm7GwkJ7zpMm"
+  },
+  {
+    "idUnico": "usr_1758347159094",
+    "email": "5@gmail.com",
+    "password": "$2b$10$PnAhg.XGKG6A4Q2YNAneeO/Yi2jtg3wFxRQWQ8ncsjb194vdFxEaG"
+  },
+  {
+    "idUnico": "usr_1758347238650",
+    "email": "6@gmail.com",
+    "password": "$2b$10$BgIsQHV02FGEAW.mZFYsfeRNb5szFMx2HPbK8QgeOtrpTJsbjaLBe",
+    "resetPasswordCode": "522854",
+    "resetPasswordExpires": 1758690217556,
+    "resetCodeHandled": true
+  },
+  {
+    "idUnico": "usr_1758347677553",
+    "email": "7@gmail.com",
+    "password": "$2b$10$qzUR9j2d1cdHyRVUYhNUsOaJwPi3Fad/.84d.ayN7k2OzhyO.U5zq"
+  },
+  {
+    "idUnico": "usr_1758347864064",
+    "email": "8@gmail.com",
+    "password": "$2b$10$fJKp.7UrFBvcvaYHsvMz.eOcPoc/kh5As6u3xrvPdEHH2SFZBLPJy"
+  },
+  {
+    "idUnico": "usr_1758347994587",
+    "email": "9@gmail.com",
+    "password": "$2b$10$utHokGegNOPDt1862xrd5euTKu2rP6CqYi2bz.BsPUKzh8mdPqp9y"
+  },
+  {
+    "idUnico": "usr_1758434156550",
+    "email": "10@gmail.com",
+    "password": "$2b$10$D7LuiF7eHaCeK57aQws7i.C79wdeuM0O7BbyvMspQqUkS2yC19sby"
+  },
+  {
+    "idUnico": "usr_1758446056931",
+    "email": "im@gmail.com",
+    "password": "$2b$10$6yzNZQ5.MmdHR7Fa78cQSuCuPJqcaNRXAivZKN0ximQo7EG8S334S",
+    "resetPasswordCode": "830429",
+    "resetPasswordExpires": 1758690166993,
+    "resetCodeHandled": true
+  },
+  {
+    "idUnico": "usr_1758773037676",
+    "email": "caca@gmail.com",
+    "password": "$2b$10$NfC3u7d5wDRN6SsAMEb/wuCNAsTDmOBZXdvk4XGScQendQL2TZDb2"
+  },
+  {
+    "idUnico": "usr_1758774342124",
+    "email": "l@gmail.com",
+    "password": "$2b$10$uL70tmqdw9uF6CUNrrn2iuHjp3nVKcuPkARmQusOJdrwj3jhccRki"
   }
 ]

@@ -1,0 +1,641 @@
+[
+  {
+    "idUnico": "usr_1758083870130",
+    "name": "1",
+    "fechaNacimiento": "0001-01-01",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-09-17T04:37:50.132Z",
+    "fechaVencimientoSuscripcion": "2025-10-17T04:38:03.611Z",
+    "walletBTC": "1@gmail.com",
+    "referidoPor": null,
+    "codigoReferido": "1284",
+    "conteoReferidosDirectos": 4,
+    "conteoReferidosTotales": 8,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-09-17T04:38:03.611Z",
+        "txid": "1",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [
+      {
+        "fecha": "2025-09-17T04:40:36.794Z",
+        "monto": 12.5,
+        "nivel": 1,
+        "deUsuario": "2@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:40:20.178Z",
+        "monto": 12.5,
+        "nivel": 1,
+        "deUsuario": "3@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:43:49.566Z",
+        "monto": 7.5,
+        "nivel": 2,
+        "deUsuario": "4@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:46:12.228Z",
+        "monto": 2.5,
+        "nivel": 3,
+        "deUsuario": "5@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:47:44.280Z",
+        "monto": 1.5,
+        "nivel": 4,
+        "deUsuario": "6@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:54:55.923Z",
+        "monto": 1,
+        "nivel": 5,
+        "deUsuario": "7@gmail.com"
+      },
+      {
+        "fecha": "2025-09-23T05:49:53.297Z",
+        "monto": 12.5,
+        "nivel": 1,
+        "deUsuario": "caca@gmail.com"
+      },
+      {
+        "fecha": "2025-09-25T04:26:22.493Z",
+        "monto": 12.5,
+        "nivel": 1,
+        "deUsuario": "l@gmail.com"
+      }
+    ],
+    "comisionesPagadas": [
+      {
+        "fecha": "2025-09-18T05:36:14.262Z",
+        "monto": 12.5,
+        "tipo": "Adelantado",
+        "txid": "cazz"
+      },
+      {
+        "fecha": "2025-09-21T20:32:43.904Z",
+        "monto": 25,
+        "tipo": "Regular",
+        "txid": "segundo pago"
+      },
+      {
+        "fecha": "2025-09-25T04:07:48.854Z",
+        "monto": 12.5,
+        "tipo": "Adelantado",
+        "txid": "popo"
+      },
+      {
+        "fecha": "2025-09-25T04:38:14.839Z",
+        "monto": 12.5,
+        "tipo": "Adelantado",
+        "txid": "id_DE_PAGO"
+      }
+    ],
+    "txid": null,
+    "fechaReportePago": "2025-09-17T04:37:54.628Z",
+    "fechaAprobacionPago": "2025-09-17T04:38:03.611Z"
+  },
+  {
+    "idUnico": "usr_1758084024100",
+    "name": "2",
+    "fechaNacimiento": "0001-01-01",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-09-17T04:40:24.101Z",
+    "fechaVencimientoSuscripcion": "2025-10-17T04:40:36.794Z",
+    "walletBTC": "2@gmail.com",
+    "referidoPor": "usr_1758083870130",
+    "codigoReferido": "2520",
+    "conteoReferidosDirectos": 1,
+    "conteoReferidosTotales": 5,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-09-17T04:40:36.794Z",
+        "txid": "2",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [
+      {
+        "fecha": "2025-09-20T05:43:49.566Z",
+        "monto": 12.5,
+        "nivel": 1,
+        "deUsuario": "4@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:46:12.228Z",
+        "monto": 7.5,
+        "nivel": 2,
+        "deUsuario": "5@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:47:44.280Z",
+        "monto": 2.5,
+        "nivel": 3,
+        "deUsuario": "6@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:54:55.923Z",
+        "monto": 1.5,
+        "nivel": 4,
+        "deUsuario": "7@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:58:36.369Z",
+        "monto": 1,
+        "nivel": 5,
+        "deUsuario": "8@gmail.com"
+      }
+    ],
+    "comisionesPagadas": [
+      {
+        "fecha": "2025-09-21T20:33:30.819Z",
+        "monto": 25,
+        "tipo": "Regular",
+        "txid": "123"
+      }
+    ],
+    "txid": null,
+    "fechaReportePago": "2025-09-17T04:40:28.635Z",
+    "fechaAprobacionPago": "2025-09-17T04:40:36.794Z"
+  },
+  {
+    "idUnico": "usr_1758346777111",
+    "name": "3",
+    "fechaNacimiento": "1991-10-20",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-09-20T05:39:37.113Z",
+    "fechaVencimientoSuscripcion": "2025-10-20T05:40:20.178Z",
+    "walletBTC": "123123",
+    "referidoPor": "usr_1758083870130",
+    "codigoReferido": "3426",
+    "conteoReferidosDirectos": 0,
+    "conteoReferidosTotales": 0,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-09-20T05:40:20.178Z",
+        "txid": "3",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [],
+    "comisionesPagadas": [],
+    "txid": null,
+    "fechaReportePago": "2025-09-20T05:39:42.824Z",
+    "fechaAprobacionPago": "2025-09-20T05:40:20.178Z"
+  },
+  {
+    "idUnico": "usr_1758346937014",
+    "name": "4",
+    "fechaNacimiento": "1991-10-20",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-09-20T05:42:17.016Z",
+    "fechaVencimientoSuscripcion": "2025-10-20T05:43:49.566Z",
+    "walletBTC": "puto",
+    "referidoPor": "usr_1758084024100",
+    "codigoReferido": "4910",
+    "conteoReferidosDirectos": 1,
+    "conteoReferidosTotales": 5,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-09-20T05:43:49.566Z",
+        "txid": "4",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [
+      {
+        "fecha": "2025-09-20T05:46:12.228Z",
+        "monto": 12.5,
+        "nivel": 1,
+        "deUsuario": "5@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:47:44.279Z",
+        "monto": 7.5,
+        "nivel": 2,
+        "deUsuario": "6@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:54:55.923Z",
+        "monto": 2.5,
+        "nivel": 3,
+        "deUsuario": "7@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:58:36.369Z",
+        "monto": 1.5,
+        "nivel": 4,
+        "deUsuario": "8@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T06:00:07.491Z",
+        "monto": 1,
+        "nivel": 5,
+        "deUsuario": "9@gmail.com"
+      }
+    ],
+    "comisionesPagadas": [
+      {
+        "fecha": "2025-09-21T20:33:36.010Z",
+        "monto": 25,
+        "tipo": "Regular",
+        "txid": "123"
+      }
+    ],
+    "txid": null,
+    "fechaReportePago": "2025-09-20T05:42:21.720Z",
+    "fechaAprobacionPago": "2025-09-20T05:43:49.566Z"
+  },
+  {
+    "idUnico": "usr_1758347159094",
+    "name": "5",
+    "fechaNacimiento": "1991-10-20",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-09-20T05:45:59.096Z",
+    "fechaVencimientoSuscripcion": "2025-10-20T05:46:12.228Z",
+    "walletBTC": "5@gmail.com",
+    "referidoPor": "usr_1758346937014",
+    "codigoReferido": "5324",
+    "conteoReferidosDirectos": 1,
+    "conteoReferidosTotales": 4,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-09-20T05:46:12.228Z",
+        "txid": "5",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [
+      {
+        "fecha": "2025-09-20T05:47:44.279Z",
+        "monto": 12.5,
+        "nivel": 1,
+        "deUsuario": "6@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:54:55.923Z",
+        "monto": 7.5,
+        "nivel": 2,
+        "deUsuario": "7@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:58:36.369Z",
+        "monto": 2.5,
+        "nivel": 3,
+        "deUsuario": "8@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T06:00:07.491Z",
+        "monto": 1.5,
+        "nivel": 4,
+        "deUsuario": "9@gmail.com"
+      }
+    ],
+    "comisionesPagadas": [
+      {
+        "fecha": "2025-09-21T20:33:41.005Z",
+        "monto": 24,
+        "tipo": "Regular",
+        "txid": "123"
+      }
+    ],
+    "txid": null,
+    "fechaReportePago": "2025-09-20T05:46:04.051Z",
+    "fechaAprobacionPago": "2025-09-20T05:46:12.228Z"
+  },
+  {
+    "idUnico": "usr_1758347238650",
+    "name": "6",
+    "fechaNacimiento": "1991-10-20",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-09-20T05:47:18.651Z",
+    "fechaVencimientoSuscripcion": "2025-10-20T05:47:44.279Z",
+    "walletBTC": "6",
+    "referidoPor": "usr_1758347159094",
+    "codigoReferido": "6706",
+    "conteoReferidosDirectos": 1,
+    "conteoReferidosTotales": 3,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-09-20T05:47:44.279Z",
+        "txid": "6",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [
+      {
+        "fecha": "2025-09-20T05:54:55.923Z",
+        "monto": 12.5,
+        "nivel": 1,
+        "deUsuario": "7@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T05:58:36.369Z",
+        "monto": 7.5,
+        "nivel": 2,
+        "deUsuario": "8@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T06:00:07.491Z",
+        "monto": 2.5,
+        "nivel": 3,
+        "deUsuario": "9@gmail.com"
+      }
+    ],
+    "comisionesPagadas": [
+      {
+        "fecha": "2025-09-21T20:33:44.522Z",
+        "monto": 22.5,
+        "tipo": "Regular",
+        "txid": "123"
+      }
+    ],
+    "txid": null,
+    "fechaReportePago": "2025-09-20T05:47:22.889Z",
+    "fechaAprobacionPago": "2025-09-20T05:47:44.279Z"
+  },
+  {
+    "idUnico": "usr_1758347677553",
+    "name": "7christian leonardo pedroza ruiz",
+    "fechaNacimiento": "1991-10-20",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-09-20T05:54:37.555Z",
+    "fechaVencimientoSuscripcion": "2025-10-20T05:54:55.923Z",
+    "walletBTC": "7@gmail.com",
+    "referidoPor": "usr_1758347238650",
+    "codigoReferido": "7CHRISTIAN222",
+    "conteoReferidosDirectos": 1,
+    "conteoReferidosTotales": 2,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-09-20T05:54:55.923Z",
+        "txid": "christian",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [
+      {
+        "fecha": "2025-09-20T05:58:36.369Z",
+        "monto": 12.5,
+        "nivel": 1,
+        "deUsuario": "8@gmail.com"
+      },
+      {
+        "fecha": "2025-09-20T06:00:07.491Z",
+        "monto": 7.5,
+        "nivel": 2,
+        "deUsuario": "9@gmail.com"
+      }
+    ],
+    "comisionesPagadas": [
+      {
+        "fecha": "2025-09-21T20:33:47.729Z",
+        "monto": 20,
+        "tipo": "Regular",
+        "txid": "123"
+      }
+    ],
+    "txid": null,
+    "fechaReportePago": "2025-09-20T05:54:44.478Z",
+    "fechaAprobacionPago": "2025-09-20T05:54:55.923Z"
+  },
+  {
+    "idUnico": "usr_1758347864064",
+    "name": "8",
+    "fechaNacimiento": "1991-10-20",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-09-20T05:57:44.066Z",
+    "fechaVencimientoSuscripcion": "2025-10-20T05:58:36.369Z",
+    "walletBTC": "8@gmail.com",
+    "referidoPor": "usr_1758347677553",
+    "codigoReferido": "8920",
+    "conteoReferidosDirectos": 1,
+    "conteoReferidosTotales": 1,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-09-20T05:58:36.369Z",
+        "txid": "8",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [
+      {
+        "fecha": "2025-09-20T06:00:07.491Z",
+        "monto": 12.5,
+        "nivel": 1,
+        "deUsuario": "9@gmail.com"
+      }
+    ],
+    "comisionesPagadas": [
+      {
+        "fecha": "2025-09-21T20:33:56.181Z",
+        "monto": 12.5,
+        "tipo": "Regular",
+        "txid": "123"
+      }
+    ],
+    "txid": null,
+    "fechaReportePago": "2025-09-20T05:58:21.797Z",
+    "fechaAprobacionPago": "2025-09-20T05:58:36.369Z"
+  },
+  {
+    "idUnico": "usr_1758347994587",
+    "name": "9",
+    "fechaNacimiento": "1991-10-20",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-09-20T05:59:54.589Z",
+    "fechaVencimientoSuscripcion": "2025-10-20T06:00:07.490Z",
+    "walletBTC": "9@gmail.com",
+    "referidoPor": "usr_1758347864064",
+    "codigoReferido": "9432",
+    "conteoReferidosDirectos": 0,
+    "conteoReferidosTotales": 0,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-09-20T06:00:07.490Z",
+        "txid": "9",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [],
+    "comisionesPagadas": [],
+    "txid": null,
+    "fechaReportePago": "2025-09-20T05:59:58.562Z",
+    "fechaAprobacionPago": "2025-09-20T06:00:07.490Z"
+  },
+  {
+    "idUnico": "usr_1758434156550",
+    "name": "10",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-09-21T05:55:56.552Z",
+    "fechaVencimientoSuscripcion": "2025-10-21T05:56:24.211Z",
+    "walletBTC": null,
+    "referidoPor": null,
+    "codigoReferido": "10904",
+    "conteoReferidosDirectos": 0,
+    "conteoReferidosTotales": 0,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-09-21T05:56:24.211Z",
+        "txid": "10",
+        "monto": 50
+      }
+    ],
+    "historialComisiones": [],
+    "comisionesPagadas": [],
+    "txid": null,
+    "fechaReportePago": "2025-09-21T05:56:07.974Z",
+    "fechaAprobacionPago": "2025-09-21T05:56:24.211Z"
+  },
+  {
+    "idUnico": "usr_1758446056931",
+    "name": "im",
+    "fechaNacimiento": "1991-10-20",
+    "pais": "México",
+    "telefono": "08442794951",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-09-21T09:14:16.933Z",
+    "fechaVencimientoSuscripcion": "2025-10-22T23:31:30.463Z",
+    "walletBTC": null,
+    "referidoPor": null,
+    "codigoReferido": "IM569",
+    "conteoReferidosDirectos": 0,
+    "conteoReferidosTotales": 0,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-09-22T23:31:30.462Z",
+        "txid": "cacaca",
+        "monto": 50
+      }
+    ],
+    "comisionesPagadas": [],
+    "txid": null,
+    "fechaReportePago": "2025-09-21T09:14:22.699Z",
+    "fechaAprobacionPago": "2025-09-22T23:31:30.463Z"
+  },
+  {
+    "idUnico": "usr_1758773037676",
+    "name": "caca",
+    "fechaNacimiento": "1991-03-12",
+    "pais": "México",
+    "telefono": "08442794951",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-09-25T04:03:57.678Z",
+    "fechaVencimientoSuscripcion": "2025-10-25T04:26:17.978Z",
+    "walletBTC": null,
+    "referidoPor": null,
+    "codigoReferido": "CACA627",
+    "conteoReferidosDirectos": 0,
+    "conteoReferidosTotales": 0,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-09-25T04:04:19.728Z",
+        "txid": "ppo",
+        "monto": 50
+      },
+      {
+        "fecha": "2025-09-25T04:26:17.978Z",
+        "txid": "ppo",
+        "monto": 50
+      }
+    ],
+    "comisionesPagadas": [],
+    "txid": null,
+    "fechaReportePago": "2025-09-25T04:04:25.757Z",
+    "fechaAprobacionPago": "2025-09-25T04:26:17.978Z"
+  },
+  {
+    "idUnico": "usr_1758774342124",
+    "name": "leon",
+    "fechaNacimiento": "1991-10-20",
+    "pais": "Argentina",
+    "telefono": "08442794951",
+    "rol": "usuario",
+    "tipoUsuario": "afiliado",
+    "suscripcionActiva": true,
+    "estatusPago": "aprobado",
+    "fechaRegistro": "2025-09-25T04:25:42.180Z",
+    "fechaVencimientoSuscripcion": "2025-10-25T04:26:22.493Z",
+    "walletBTC": null,
+    "referidoPor": "usr_1758083870130",
+    "codigoReferido": "LEON973",
+    "conteoReferidosDirectos": 0,
+    "conteoReferidosTotales": 0,
+    "bonosDesbloqueados": 0,
+    "comisionesPendientes": 0,
+    "historialPagos": [
+      {
+        "fecha": "2025-09-25T04:26:22.493Z",
+        "txid": "l",
+        "monto": 50
+      }
+    ],
+    "comisionesPagadas": [],
+    "txid": null,
+    "fechaReportePago": "2025-09-25T04:25:46.674Z",
+    "fechaAprobacionPago": "2025-09-25T04:26:22.493Z"
+  }
+]

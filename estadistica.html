@@ -5,116 +5,161 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estadísticas - Admin Panel</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style_admin.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root {
-            --color-background: #0A0A0A; --color-surface: #1A1A1A; --color-glass: rgba(26, 26, 26, 0.7);
-            --color-text-primary: #FFFFFF; --color-text-secondary: #A0A0A0; --color-accent: #D4AF37;
-            --color-border: rgba(255, 255, 255, 0.1); --color-success: #2ECC71; --color-danger: #E74C3C;
-            --color-pending: #F7931A; --font-main: 'Inter', sans-serif;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-main); background-color: var(--color-background); color: var(--color-text-primary); }
-        .aurora-bg::before { content: ''; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at 15% 85%, rgba(255, 255, 255, 0.05), transparent 40%), radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.1), transparent 40%); animation: aurora 25s infinite alternate; z-index: -1; }
-        @keyframes aurora { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .admin-layout { display: flex; width: 100%; height: 100vh; overflow: hidden; }
-        .sidebar { width: 280px; background-color: #111111; border-right: 1px solid var(--color-border); padding: 1.5rem; display: flex; flex-direction: column; flex-shrink: 0; }
-        .sidebar-header .logo { font-size: 1.5rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.75rem; color: var(--color-text-primary); }
-        .sidebar-header .logo .bxs-shield-alt-2 { color: var(--color-accent); font-size: 2rem; }
-        .sidebar-nav { margin-top: 2.5rem; flex-grow: 1; }
-        .sidebar-nav ul { list-style: none; padding: 0; }
-        .nav-group-title { font-size: 0.75rem; text-transform: uppercase; color: var(--color-text-secondary); font-weight: 500; padding: 0 1rem; margin-top: 2rem; margin-bottom: 1rem; }
-        .sidebar-nav li a { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1rem; border-radius: 8px; text-decoration: none; color: var(--color-text-secondary); font-weight: 500; margin-bottom: 0.5rem; transition: background-color 0.2s, color 0.2s; }
-        .sidebar-nav li a:hover { background-color: var(--color-surface); color: var(--color-text-primary); }
-        .sidebar-nav li a.active { color: var(--color-text-primary); background: linear-gradient(90deg, var(--color-accent), rgba(212, 175, 55, 0.5)); font-weight: 700; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
-        .sidebar-nav li a.active i { color: var(--color-text-primary); }
-        .sidebar-nav li a i { font-size: 1.5rem; }
-        .sidebar-footer { padding-top: 1.5rem; margin-top: 1rem; border-top: 1px solid var(--color-border); }
-        .user-profile { display: flex; align-items: center; gap: 1rem; }
-        .user-profile .avatar { width: 40px; height: 40px; border-radius: 50%; background-color: var(--color-accent); display: flex; justify-content: center; align-items: center; font-weight: 700; color: #111; }
-        .user-profile-info .user-name { font-weight: 700; }
-        .user-profile-info .user-rank { font-size: 0.8rem; color: var(--color-text-secondary); }
-        .main-content { flex-grow: 1; padding: 2.5rem 3rem; overflow-y: auto; }
-        .main-header h2 { font-size: 2rem; font-weight: 900; }
-        .main-header p { color: var(--color-text-secondary); font-size: 1.1rem; }
-        .content-section { margin-bottom: 3rem; }
-        .section-heading { font-size: 1.5rem; font-weight: 700; color: var(--color-text-primary); margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
-        .glass-card { background: var(--color-glass); backdrop-filter: blur(15px); border: 1px solid var(--color-border); border-radius: 16px; padding: 2rem; }
-        .kpi-card { padding: 1.5rem; }
-        .kpi-card .label { color: var(--color-text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;}
-        .kpi-card .value { font-size: 2.2rem; font-weight: 700; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 1rem 0; text-align: left; border-bottom: 1px solid var(--color-border); }
-        th { color: var(--color-text-secondary); font-weight: 500; font-size: 0.8rem; text-transform: uppercase; }
-        tr:last-child td { border-bottom: none; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .stat-card { display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem 2rem; }
+        .stat-icon { font-size: 3rem; color: var(--color-accent); }
+        .stat-info .stat-title { font-size: 0.9rem; color: var(--color-text-secondary); display: block; }
+        .stat-info .stat-value { font-size: 2rem; font-weight: 700; line-height: 1.2; }
+        .chart-wrapper { display: grid; grid-template-columns: 2fr 1fr; align-items: center; gap: 2rem; }
+        .chart-summary .summary-item { margin-bottom: 1.5rem; }
+        .chart-summary .summary-label { font-size: 0.9rem; color: var(--color-text-secondary); }
+        .chart-summary .summary-value { font-size: 1.8rem; font-weight: 700; }
+        .chart-container { position: relative; height: 300px; width: 100%; }
     </style>
 </head>
 <body class="aurora-bg">
     <div class="admin-layout">
-        <aside class="sidebar">
-            <div class="sidebar-header"><a href="admin_dashboard.html" class="logo"><i class='bx bxs-shield-alt-2'></i><span>Admin Panel</span></a></div>
+     <aside class="sidebar">
+            <div class="sidebar-header"><a href="admin_usuarios.html" class="logo"><i class='bx bxs-shield-alt-2'></i><span>Admin Panel</span></a></div>
             <nav class="sidebar-nav">
                 <div class="nav-group-title">Principal</div>
                 <ul>
-                    <li><a href="estadistica.html" class="active"><i class='bx bxs-bar-chart-alt-2'></i><span>Estadísticas</span></a></li>
-                    <li><a href="admin_pagos.html"><i class='bx bxs-wallet'></i><span>Pagos</span></a></li>
-                    <li><a href="admin_usuarios.html"><i class='bx bxs-user-detail'></i><span>Usuarios</span></a></li>
-                    <li><a href="admin_contenido.html"><i class='bx bxs-videos'></i><span>Contenido</span></a></li>
-                    <li><a href="admin_redes.html"><i class='bx bxl-whatsapp-square'></i><span>Redes Sociales</span></a></li>
+                    <li><a href="estadistica.html"><i class='bx bxs-bar-chart-alt-2'></i><span>Estadísticas</span></a></li>
+                    <li><a href="admin_pagos.html"><i class='bx bxs-wallet'></i><span>Gestión de Pagos</span></a></li>
+                    <li><a href="admin_usuarios.html"><i class='bx bxs-user-detail'></i><span>Gestión de Usuarios</span></a></li>
+                    <li><a href="admin_contenido.html"><i class='bx bxs-user-account'></i><span>Expediente de Usuario</span></a></li>
+                    <li><a href="admin_redes.html"><i class='bx bxs-video-plus'></i><span>Gestor de Contenido</span></a></li>
                 </ul>
-                <div class="nav-group-title">Ajustes</div>
-                 <ul><li><a href="#"><i class='bx bxs-cog'></i><span>Configuración</span></a></li><li><a href="login.html"><i class='bx bx-log-out-circle'></i><span>Cerrar Sesión</span></a></li></ul>
+             <div class="nav-group-title">Ajustes</div>
+<ul>
+    <li><a href="admin_resets.html"><i class='bx bxs-key'></i><span>Recuperación</span></a></li> 
+    
+    <li><a href="#"><i class='bx bxs-cog'></i><span>Configuración</span></a></li>
+    <li><a href="login.html"><i class='bx bx-log-out-circle'></i><span>Cerrar Sesión</span></a></li>
+</ul>
             </nav>
-            <div class="sidebar-footer">
-                <div class="user-profile"><div class="avatar">C</div><div class="user-profile-info"><span class="user-name">Christian</span><span class="user-rank">Super Admin</span></div></div>
-            </div>
         </aside>
 
         <main class="main-content">
             <header class="main-header">
-                <h2>Estadísticas y Reportes</h2>
-                <p>El cerebro analítico de tu negocio para tomar decisiones inteligentes.</p>
+                <h2>Centro de Control</h2>
+                <p>Análisis financiero y de crecimiento de la plataforma.</p>
             </header>
-
-            <section class="content-section">
-                <h3 class="section-heading">💰 Resumen Financiero</h3>
-                <div class="grid">
-                    <div class="glass-card kpi-card"><div class="label">Ingresos Brutos</div><div class="value">$1,500.00</div></div>
-                    <div class="glass-card kpi-card"><div class="label">Comisiones Pagadas</div><div class="value">$750.00</div></div>
-                    <div class="glass-card kpi-card"><div class="label">Ganancia Neta</div><div class="value" style="color: var(--color-accent);">$750.00</div></div>
-                </div>
-            </section>
-
-            <section class="content-section">
-                <h3 class="section-heading">👥 Crecimiento de la Comunidad</h3>
-                <div class="grid">
-                    <div class="glass-card kpi-card"><div class="label">Nuevos Usuarios (30d)</div><div class="value">25</div></div>
-                    <div class="glass-card kpi-card"><div class="label">Usuarios Activos</div><div class="value">115</div></div>
-                    <div class="glass-card kpi-card"><div class="label">Tasa de Abandono</div><div class="value" style="color: var(--color-danger);">5%</div></div>
-                </div>
-            </section>
-
-            <section class="content-section">
-                <h3 class="section-heading">🌐 Rendimiento de Afiliados</h3>
-                <div class="glass-card">
-                    <div class="table-container">
-                        <table>
-                            <thead><tr><th>Top Afiliado (Líder)</th><th>Referidos Directos</th><th>Total en su Red</th></tr></thead>
-                            <tbody>
-                                <tr><td>trader.exitoso@mail.com</td><td>15</td><td>78</td></tr>
-                                <tr><td>juan.perez@mail.com</td><td>12</td><td>55</td></tr>
-                                <tr><td>sofia.g@mail.com</td><td>10</td><td>41</td></tr>
-                            </tbody>
-                        </table>
+            <div class="content-section">
+                <div class="stats-grid">
+                    <div class="stat-card glass-card">
+                        <div class="stat-info">
+                            <span class="stat-title">Ganancia Neta Real (Disponible)</span>
+                            <span class="stat-value" id="stat-ganancia-real">--</span>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-info">
+                            <span class="stat-title">Comisiones Pendientes</span>
+                            <span class="stat-value" id="stat-comisiones-pendientes">--</span>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-info">
+                            <span class="stat-title">Usuarios (Activos/Totales)</span>
+                            <span class="stat-value"><span id="stat-usuarios-activos">--</span> / <span id="stat-total-usuarios">--</span></span>
+                        </div>
                     </div>
                 </div>
-            </section>
+            </div>
+            <div class="content-section">
+                <div class="glass-card">
+                    <h3>Flujo de Dinero (Histórico)</h3>
+                    <div class="chart-wrapper">
+                        <div class="chart-container">
+                            <canvas id="financialsChart"></canvas>
+                        </div>
+                        <div class="chart-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">Ingresos Brutos</span>
+                                <span class="summary-value" id="summary-ingresos" style="color: var(--color-success);">--</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Comisiones Pagadas</span>
+                                <span class="summary-value" id="summary-pagado" style="color: var(--color-danger);">--</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Ganancia Neta Real</span>
+                                <span class="summary-value" id="summary-ganancia" style="color: var(--color-accent);">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
+    <script>
+    // Configuración global para que los textos de los gráficos sean blancos
+    Chart.defaults.color = 'rgba(255, 255, 255, 0.7)';
+    Chart.defaults.font.family = "'Inter', sans-serif";
+
+    function crearGraficoFinanzas(stats) {
+        const ctx = document.getElementById('financialsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Ingresos Brutos', 'Comisiones Pagadas', 'Ganancia Neta Real'],
+                datasets: [{
+                    label: 'Monto en USD',
+                    data: [stats.ingresosBrutos, stats.comisionesPagadas, stats.gananciaNetaReal],
+                    backgroundColor: [
+                        'rgba(46, 204, 113, 0.7)', // Verde
+                        'rgba(231, 76, 60, 0.7)',  // Rojo
+                        'rgba(212, 175, 55, 0.7)'  // Dorado
+                    ],
+                    borderColor: ['#2ECC71', '#E74C3C', '#D4AF37'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: { legend: { display: false } }
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('/api/estadisticas', { credentials: 'include' })
+            .then(response => {
+                if (!response.ok) {
+                    window.location.href = '/admin-login.html';
+                    return Promise.reject('No autorizado');
+                }
+                return response.json();
+            })
+            .then(stats => {
+                // Llenar las tarjetas de datos
+                document.getElementById('stat-ganancia-real').textContent = `$${stats.gananciaNetaReal.toFixed(2)}`;
+                document.getElementById('stat-comisiones-pendientes').textContent = `$${stats.comisionesPendientes.toFixed(2)}`;
+                document.getElementById('stat-usuarios-activos').textContent = stats.usuariosActivos;
+                document.getElementById('stat-total-usuarios').textContent = stats.totalUsuarios;
+                
+                // Llenar el resumen numérico
+                document.getElementById('summary-ingresos').textContent = `$${stats.ingresosBrutos.toFixed(2)}`;
+                document.getElementById('summary-pagado').textContent = `$${stats.comisionesPagadas.toFixed(2)}`;
+                document.getElementById('summary-ganancia').textContent = `$${stats.gananciaNetaReal.toFixed(2)}`;
+
+                // Crear el gráfico financiero
+                crearGraficoFinanzas(stats);
+            })
+            .catch(error => {
+                if (error.message !== 'No autorizado') {
+                    console.error('Error al cargar las estadísticas:', error);
+                    alert('No se pudieron cargar las estadísticas.');
+                }
+            });
+    });
+</script>
 </body>
 </html>
